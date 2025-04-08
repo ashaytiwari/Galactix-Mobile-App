@@ -12,9 +12,9 @@ function HomeScreen() {
 
   return (
     <ImageBackground {...imageBackgroundAttributes} resizeMode='cover'>
-      <View>
-        <Text>Discover</Text>
-        <Text>Deep Space</Text>
+      <View style={styles.headingContainer}>
+        <Text style={styles.mainText}>Discover</Text>
+        <Text style={styles.mainText}>Deep Space</Text>
       </View>
     </ImageBackground>
   );
