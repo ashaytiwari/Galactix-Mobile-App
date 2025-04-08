@@ -7,5 +7,6 @@ export const colors = {
   primaryBackground: '#20182b',
   darkTransparentColor: '#919eab3d',
   error: '#FF0038',
-  blackGlassy: '#00000080'
+  blackGlassy: '#00000080',
+  homeGradientBlack: '#212C3759'
 };
