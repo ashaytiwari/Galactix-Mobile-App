@@ -5,7 +5,6 @@ import { fontFamilies } from "@styles/fonts";
 
 const styles = StyleSheet.create({
   headingContainer: {
-    marginVertical: 20
   },
   mainText: {
     fontSize: 50,
