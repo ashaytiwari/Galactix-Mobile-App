@@ -1,8 +1,6 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import { BlurView } from '@react-native-community/blur';
-
 import AppButton from '@components/appButton/AppButton';
 
 import appLogoImage from '@assets/images/appLogo.png';
@@ -18,25 +16,16 @@ const HomeHeader = () => {
 
   const loginControlAttributes = {
     title: 'Signin',
+    rounded: true,
+    containerStyle: styles.loginControl,
+    textStyle: styles.loginControlText,
     onPress() { }
-  };
-
-  const blurViewAttributes = {
-    blurAmount: 2,
-    reducedTransparencyFallbackColor: 'white',
-    style: styles.blurViewWrapper
   };
 
   return (
     <View style={styles.homeHeaderContainer}>
-
-      <BlurView {...blurViewAttributes} blurType='dark' />
-
-      <View style={styles.headerContentWrapper}>
-        <Image {...appLogoImageAttributes} />
-        <AppButton {...loginControlAttributes} />
-      </View>
-
+      <Image {...appLogoImageAttributes} />
+      <AppButton {...loginControlAttributes} />
     </View>
   );
 };

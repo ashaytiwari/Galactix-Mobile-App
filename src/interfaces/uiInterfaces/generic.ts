@@ -8,6 +8,14 @@ export interface IButtonProps {
   title: string,
   rounded?: boolean,
   containerStyle?: any,
+  textStyle?: any,
   content?: React.ReactNode,
   onPress: () => void
+}
+
+export interface ILottieAnimationProps {
+  animationSource: any,
+  loop: boolean,
+  animationStyle?: any,
+  animationWrapperStyle?: any
 }
