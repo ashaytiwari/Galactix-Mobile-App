@@ -1,6 +1,7 @@
 import React from 'react';
 
-import HomeScreen from '@screens/homeScreen/HomeScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import AuthStackNavigator from '@navigation/AuthStackNavigator';
 
 import AppStatusBar from '@components/AppStatusBar';
 
@@ -8,7 +9,9 @@ function App() {
 
   return (
     <AppStatusBar>
-      <HomeScreen />
+      <NavigationContainer>
+        <AuthStackNavigator />
+      </NavigationContainer>
     </AppStatusBar>
   );
 
