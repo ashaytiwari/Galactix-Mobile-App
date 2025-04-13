@@ -10,6 +10,8 @@ import store from '@store';
 import { name as appName } from './app.json';
 import App from './App';
 
+import './gesture-handler';
+
 const AppWrapper = () => (
   <Provider store={store}>
     <App />
