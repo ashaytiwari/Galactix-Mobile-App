@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   imageBackgroundContainer: {
-    flex: 1,
+    flex: 1
   },
   gradientContainer: {
     flex: 1
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     opacity: 0.5,
-    flex: 1
+    flex: 1,
   }
 });
 

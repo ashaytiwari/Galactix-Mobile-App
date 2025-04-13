@@ -19,3 +19,7 @@ export interface ILottieAnimationProps {
   animationStyle?: any,
   animationWrapperStyle?: any
 }
+
+export interface IChildrenProps {
+  children: React.ReactNode
+}

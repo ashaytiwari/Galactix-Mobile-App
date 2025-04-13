@@ -18,7 +18,7 @@ function HomeScreen() {
     const joinNowControlAttributes = {
       title: 'Join Now',
       rounded: true,
-      onPress() { }
+      onPress() {}
     };
 
     const lottieAnimationAttributes = {

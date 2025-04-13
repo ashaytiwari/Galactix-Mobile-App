@@ -9,7 +9,11 @@ module.exports = {
         '@screens': './src/screens',
         '@styles': './src/styles',
         '@assets': './src/assets',
-        '@components': './src/components'
+        '@components': './src/components',
+        '@constants': './src/constants',
+        '@store': './src/store',
+        '@hooks': './src/hooks',
+        '@navigation': './src/navigation'
       }
      }
     ]

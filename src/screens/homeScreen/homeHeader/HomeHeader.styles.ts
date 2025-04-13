@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
   appLogoImage: {
     width: 60,
     height: 60,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    borderRadius: 5
   },
   loginControl: {
     paddingVertical: 8
