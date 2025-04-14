@@ -3,6 +3,8 @@ import { Image, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
+import screenNames from '@constants/screenNames';
+
 import AppButton from '@components/appButton/AppButton';
 
 import appLogoImage from '@assets/images/appLogo.png';
@@ -24,7 +26,7 @@ const HomeHeader = () => {
     containerStyle: styles.loginControl,
     textStyle: styles.loginControlText,
     onPress() { 
-      navigation.navigate('login');
+      navigation.navigate(screenNames.LOGIN);
     }
   };
 

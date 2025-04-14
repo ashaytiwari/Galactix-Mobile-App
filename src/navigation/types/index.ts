@@ -1,4 +1,7 @@
+import screenNames from "@constants/screenNames";
+
 export type AuthStackParamList = {
-  'home': undefined;
-  'login': undefined;
+  [screenNames.HOME]: undefined;
+  [screenNames.LOGIN]: undefined;
+  [screenNames.SIGNUP]: undefined;
 };

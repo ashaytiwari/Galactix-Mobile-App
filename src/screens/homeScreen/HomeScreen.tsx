@@ -1,6 +1,10 @@
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
+import screenNames from '@constants/screenNames';
+
 import BackgroundGradientImageWrapper from '@components/backgroundGradientImageWrapper/BackgroundGradientImageWrapper';
 import AppButton from '@components/appButton/AppButton';
 import LottieAnimation from '@components/LottieAnimation';
@@ -13,12 +17,16 @@ import styles from './HomeScreen.styles';
 
 function HomeScreen() {
 
+  const navigation = useNavigation<any>();
+
   function renderMainContent() {
 
     const joinNowControlAttributes = {
       title: 'Join Now',
       rounded: true,
-      onPress() {}
+      onPress() {
+        navigation.navigate(screenNames.SIGNUP);
+      }
     };
 
     const lottieAnimationAttributes = {
