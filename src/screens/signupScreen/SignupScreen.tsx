@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import BackgroundGradientImageWrapper from '@components/backgroundGradientImageWrapper/BackgroundGradientImageWrapper';
 
@@ -12,6 +13,7 @@ function SignupScreen() {
     return (
       <View style={styles.header}>
         <Text style={styles.heading}>Begin Your Interstellar Adventure 🚀</Text>
+        <Icon name="home" size={30} color="#fff" />
       </View>
     );
 
