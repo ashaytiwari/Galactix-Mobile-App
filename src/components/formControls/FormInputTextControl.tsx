@@ -1,13 +1,15 @@
-import { IFormInputTextControl } from '@interfaces/uiInterfaces/formControls';
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 
-import styles from './FormControls.styles';
+import { IFormInputTextControl } from '@interfaces/uiInterfaces/formControls';
+
 import { colors } from '@styles/colors';
+
+import styles from './FormControls.styles';
 
 const FormInputTextControl: React.FC<IFormInputTextControl> = (props) => {
 
-  const { label, error, placeholder, value, onChangeText, onBlur } = props;
+  const { label, error, keyboardType = 'default', placeholder, value, onChangeText, onBlur } = props;
 
   function renderLabel() {
 
@@ -43,7 +45,7 @@ const FormInputTextControl: React.FC<IFormInputTextControl> = (props) => {
   return (
     <View style={styles.formGroup}>
       {renderLabel()}
-      <TextInput {...textInputAttributes} />
+      <TextInput {...textInputAttributes} keyboardType={keyboardType} />
       {renderErrorMessage()}
     </View>
   );

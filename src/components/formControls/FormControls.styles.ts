@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   formTextInput: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.primary,
     color: colors.eclipseGray,
     borderRadius: 7,
