@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     color: colors.eclipseGray,
     borderRadius: 7,
     paddingHorizontal: 10,
-    paddingVertical: 14,
+    paddingVertical: 12,
     fontSize: 16
   },
   errorMessage: {
@@ -41,8 +41,9 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 7,
     paddingHorizontal: 10,
-    paddingVertical: 14,
-    fontSize: 16
+    paddingVertical: 12,
+    fontSize: 16,
+    color: colors.eclipseGray
   }
 });
 

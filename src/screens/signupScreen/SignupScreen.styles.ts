@@ -42,6 +42,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 4,
   },
+  formFooter: {
+    marginTop: 20
+  },
+  alreadyHaveAnAccountContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+    columnGap: 10
+  },
+  alreadyHaveAnAccountText: {
+    fontSize: 15
+  },
+  alreadyHaveAnAccountSigninControl: {
+    color: colors.primary,
+    fontSize: 15,
+    textDecorationStyle: 'solid',
+    textDecorationColor: colors.primary,
+    textDecorationLine: 'underline'
+  }
 });
 
 export default styles;

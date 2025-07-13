@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, Text, Pressable, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
+import { View, Text, Pressable, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { useFormik } from 'formik';
 
+import screenNames from '@constants/screenNames';
+
 import BackgroundGradientImageWrapper from '@components/backgroundGradientImageWrapper/BackgroundGradientImageWrapper';
 import FormInputTextControl from '@components/formControls/FormInputTextControl';
 import FormSecureInputControl from '@components/formControls/FormSecureInputControl';
+import AppButton from '@components/appButton/AppButton';
 
 import { colors } from '@styles/colors';
 
@@ -26,6 +29,10 @@ function SignupScreen() {
   const formikErrors = formik.errors;
 
   const navigation = useNavigation<any>();
+
+  function navigateToSignin() {
+    navigation.navigate(screenNames.LOGIN);
+  }
 
   function renderHeader() {
 
@@ -47,6 +54,19 @@ function SignupScreen() {
           <Icon {...backIconAttributes} />
         </Pressable>
         <Text style={styles.heading}>Begin Your Interstellar Adventure 🚀</Text>
+      </View>
+    );
+
+  }
+
+  function renderAlreadyHaveAnAccountSection() {
+
+    return (
+      <View style={styles.alreadyHaveAnAccountContainer}>
+        <Text style={styles.alreadyHaveAnAccountText}>Already have an account?</Text>
+        <TouchableOpacity onPress={navigateToSignin}>
+          <Text style={styles.alreadyHaveAnAccountSigninControl}>Signin</Text>
+        </TouchableOpacity>
       </View>
     );
 
@@ -95,14 +115,26 @@ function SignupScreen() {
       contentContainerStyle: styles.scrollViewContainer
     };
 
+    const createAccountControlAttributes = {
+      title: 'Create Account',
+      onPress() { }
+    };
+
     return (
       <View style={styles.formCardContainer}>
         <ScrollView {...scrollViewContainerAttributes} keyboardShouldPersistTaps="handled">
           <View style={styles.signupForm}>
+
             <FormInputTextControl {...firstNameControlAttributes} />
             <FormInputTextControl {...lastNameControlAttributes} />
             <FormInputTextControl {...emailControlAttributes} />
             <FormSecureInputControl {...passwordControlAttributes} />
+
+            <View style={styles.formFooter}>
+              <AppButton {...createAccountControlAttributes} />
+              {renderAlreadyHaveAnAccountSection()}
+            </View>
+
           </View>
         </ScrollView>
       </View>
