@@ -25,6 +25,24 @@ const styles = StyleSheet.create({
   },
   errorInput: {
     borderColor: colors.error,
+  },
+  secureInputControlContainer: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 7,
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  showPasswordControl: {
+    paddingHorizontal: 20
+  },
+  secureFormTextInput: {
+    borderWidth: 0,
+    borderRadius: 7,
+    paddingHorizontal: 10,
+    paddingVertical: 14,
+    fontSize: 16
   }
 });
 

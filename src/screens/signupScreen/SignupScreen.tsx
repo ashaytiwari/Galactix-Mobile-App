@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 
 import BackgroundGradientImageWrapper from '@components/backgroundGradientImageWrapper/BackgroundGradientImageWrapper';
 import FormInputTextControl from '@components/formControls/FormInputTextControl';
+import FormSecureInputControl from '@components/formControls/FormSecureInputControl';
 
 import { colors } from '@styles/colors';
 
@@ -81,6 +82,15 @@ function SignupScreen() {
       }
     };
 
+    const passwordControlAttributes = {
+      label: 'Password*',
+      placeholder: 'Enter Secure Password',
+      value: formikValues.password,
+      onChangeText(text: string) {
+        formik.setFieldValue('password', text);
+      }
+    };
+
     const scrollViewContainerAttributes = {
       contentContainerStyle: styles.scrollViewContainer
     };
@@ -92,6 +102,7 @@ function SignupScreen() {
             <FormInputTextControl {...firstNameControlAttributes} />
             <FormInputTextControl {...lastNameControlAttributes} />
             <FormInputTextControl {...emailControlAttributes} />
+            <FormSecureInputControl {...passwordControlAttributes} />
           </View>
         </ScrollView>
       </View>
