@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ScrollView, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';

@@ -20,3 +20,9 @@ export interface ISignupSecurityInfoFormModel {
   securityQuestion: string,
   securityAnswer: string
 }
+
+export interface ISigninModel {
+  email: string,
+  password: string,
+  authType: string
+}
