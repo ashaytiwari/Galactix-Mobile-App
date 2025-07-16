@@ -3,19 +3,23 @@ module.exports = {
   plugins: [
     [
       "module-resolver",
-     {
-      root: ['./src'],
-      alias: {
-        '@screens': './src/screens',
-        '@styles': './src/styles',
-        '@assets': './src/assets',
-        '@components': './src/components',
-        '@constants': './src/constants',
-        '@store': './src/store',
-        '@hooks': './src/hooks',
-        '@navigation': './src/navigation'
+      {
+        root: ['./src'],
+        alias: {
+          '@assets': './src/assets',
+          '@axiosClient': './src/axiosClient',
+          '@components': './src/components',
+          '@constants': './src/constants',
+          '@hooks': './src/hooks',
+          '@interfaces': './src/interfaces',
+          '@navigation': './src/navigation',
+          '@screens': './src/screens',
+          '@services': './src/services',
+          '@store': './src/store',
+          '@styles': './src/styles',
+          '@utilities': './src/utilities'
+        }
       }
-     }
     ]
   ]
 };

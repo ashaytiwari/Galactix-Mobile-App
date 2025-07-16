@@ -23,3 +23,19 @@ export interface ILottieAnimationProps {
 export interface IChildrenProps {
   children: React.ReactNode
 }
+
+export interface IAppPopupFooterControl {
+  text: string,
+  onPress: () => void,
+  containerStyle?: any,
+  textStyle?: any,
+}
+
+export interface IAppPopupProps {
+  title: string,
+  message: string,
+  open: boolean,
+  onClose: () => void,
+  hideCloseButton?: boolean,
+  footerControls?: Array<IAppPopupFooterControl>
+}
