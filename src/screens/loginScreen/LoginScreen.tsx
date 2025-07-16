@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFormik } from 'formik';
 
+import { useSigninUser } from '@hooks/queriesMutations/authentication';
+
 import BackgroundGradientImageWrapper from '@components/backgroundGradientImageWrapper/BackgroundGradientImageWrapper';
 import FormInputTextControl from '@components/formControls/FormInputTextControl';
 import FormSecureInputControl from '@components/formControls/FormSecureInputControl';
@@ -13,19 +15,25 @@ import screenNames from '@constants/screenNames';
 
 import { colors } from '@styles/colors';
 
-import { setDefaultSigninFormValues } from './utilities';
+import { setDefaultSigninFormValues, validateSigninForm } from './utilities';
 
 import styles from './LoginScreen.styles';
 
 function LoginScreen() {
 
+  const userSigninMutation = useSigninUser();
+
   const formik = useFormik({
     initialValues: setDefaultSigninFormValues(),
-    validate: () => { },
-    onSubmit: () => { }
+    validate: validateSigninForm,
+    onSubmit() {
+      userSigninMutation.mutate(formikValues);
+    }
   });
   const formikValues = formik.values;
   const formikErrors = formik.errors;
+
+  console.log(formikErrors);
 
   const navigation = useNavigation<any>();
 
@@ -73,12 +81,23 @@ function LoginScreen() {
 
   function renderFormCard() {
 
+    let emailError: string | undefined = '';
+    let passwordError: string | undefined = '';
+
+    if (formikErrors.email !== '' && formik.touched.email === true) {
+      emailError = formikErrors.email;
+    }
+
+    if (formikErrors.password !== '' && formik.touched.password === true) {
+      passwordError = formikErrors.password;
+    }
 
     const emailControlAttributes = {
       label: 'Email Address*',
       placeholder: 'Enter Email Address',
       keyboardType: 'email-address',
       value: formikValues.email,
+      error: emailError,
       onChangeText(text: string) {
         formik.setFieldValue('email', text);
       }
@@ -88,6 +107,7 @@ function LoginScreen() {
       label: 'Password*',
       placeholder: 'Enter Secure Password',
       value: formikValues.password,
+      error: passwordError,
       onChangeText(text: string) {
         formik.setFieldValue('password', text);
       }
@@ -99,7 +119,9 @@ function LoginScreen() {
 
     const signinControlAttributes = {
       title: 'Signin',
-      onPress() { }
+      onPress() {
+        formik.handleSubmit();
+      }
     };
 
     return (

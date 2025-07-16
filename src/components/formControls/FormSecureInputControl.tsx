@@ -57,7 +57,7 @@ const FormSecureInputControl: React.FC<IFormInputTextControl> = (props) => {
     );
   }
 
-  const inputControlStyle = error ? [styles.secureFormTextInput, styles.errorInput] : styles.secureFormTextInput;
+  const secureInputControlStyle = error ? [styles.secureInputControlContainer, styles.errorInput] : styles.secureInputControlContainer;
 
   const textInputAttributes = {
     placeholder,
@@ -66,13 +66,13 @@ const FormSecureInputControl: React.FC<IFormInputTextControl> = (props) => {
     onChangeText,
     onBlur,
     secureTextEntry: showPassword === true ? false : true,
-    style: inputControlStyle
+    style: styles.secureFormTextInput
   };
 
   return (
     <View style={styles.formGroup}>
       {renderLabel()}
-      <View style={styles.secureInputControlContainer}>
+      <View style={secureInputControlStyle}>
         <TextInput {...textInputAttributes} />
         {renderPasswordVisibilityControl()}
       </View>
