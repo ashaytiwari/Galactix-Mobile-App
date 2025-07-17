@@ -1,22 +1,23 @@
+import { appPopupAction } from "@store/slices/ui/appPopup";
+
 export function handleRESTServerInteractionError(dispatch: any, error: any, ineradicableToast?: boolean) {
 
-  console.log(error, 'error');
+  console.log(error, 'handleRESTServerInteractionError error');
 
-  // // validation error
-  // if (error.statusCode === 422) {
+  let errorMessage = error.message;
 
-  //   const firstErrorMessage = error.data[0];
-  //   showCustomToast(toastTitles.ERROR, `${firstErrorMessage?.path}-${firstErrorMessage?.msg}`);
+  if (error.statusCode === 422) {
+    const firstErrorMessageItem = error.data[0];
+    errorMessage = `${firstErrorMessageItem?.path}-${firstErrorMessageItem?.msg}`;
+  }
 
-  // } else if (error.statusCode === 401) {
-  //   return null;
-  // } else if (error.statusCode === 500) {
-  //   dispatch(commonUIActions.updateDisplayServerErrorScreen(true));
-  // } else {
-
-  //   const _ineradicableToast = ineradicableToast === true ? true : false;
-  //   showCustomToast(toastTitles.ERROR, error.message, _ineradicableToast);
-
-  // }
+  dispatch(appPopupAction.updateAppPopupState({
+    title: 'Alert',
+    message: errorMessage,
+    open: true,
+    footerControls: [
+      { text: 'Ok', onPress: () => dispatch(appPopupAction.close()) }
+    ]
+  }));
 
 }

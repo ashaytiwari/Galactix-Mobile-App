@@ -5,7 +5,7 @@ import rootReducer from "./RootReducer";
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: true }),
+    getDefaultMiddleware({ thunk: true, serializableCheck: false }),
   devTools: true,
 });
 

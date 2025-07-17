@@ -33,8 +33,6 @@ function LoginScreen() {
   const formikValues = formik.values;
   const formikErrors = formik.errors;
 
-  console.log(formikErrors);
-
   const navigation = useNavigation<any>();
 
   function navigateToSignup() {
@@ -118,7 +116,8 @@ function LoginScreen() {
     };
 
     const signinControlAttributes = {
-      title: 'Signin',
+      title: userSigninMutation.isPending === true ? 'Please Wait.....' : 'Signin',
+      disabled: userSigninMutation.isPending === true ? true : false,
       onPress() {
         formik.handleSubmit();
       }

@@ -74,7 +74,7 @@ const AppPopup: React.FC<IAppPopupProps> = (props) => {
   };
 
   return (
-    <Modal {...modalAttributes} animationType='slide'>
+    <Modal {...modalAttributes} animationType='fade'>
       <View style={styles.appPopupMain}>
 
         <View style={styles.modalView}>

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.homeGradientBlack,
   },
   modalView: {
-    backgroundColor: colors.darkTransparentColor,
+    backgroundColor: colors.primaryBackground,
     borderWidth: 1,
     borderColor: colors.tertiary,
     borderRadius: 5,
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     color: colors.tertiary,
     fontSize: 15,
     lineHeight: 21,
+    paddingBottom: 10
   },
   footerControls: {
     flexDirection: 'row-reverse',

@@ -10,6 +10,7 @@ export interface IButtonProps {
   containerStyle?: any,
   textStyle?: any,
   content?: React.ReactNode,
+  disabled?: boolean,
   onPress: () => void
 }
 

@@ -7,7 +7,7 @@ import styles from './AppButton.styles';
 
 const AppButton: React.FC<IButtonProps> = (props) => {
 
-  const { title, rounded, containerStyle, textStyle, content, onPress } = props;
+  const { title, rounded, containerStyle, textStyle, content, disabled, onPress } = props;
 
   let appButtonStyle = rounded === true ? [styles.appButtonMain, { borderRadius: 20 }] : styles.appButtonMain;
 
@@ -17,8 +17,13 @@ const AppButton: React.FC<IButtonProps> = (props) => {
 
   let buttonTextStyle = textStyle ? textStyle : styles.buttonText;
 
+  const pressableAttributes = {
+    disabled: disabled || false,
+    onPress
+  };
+
   return (
-    <Pressable onPress={onPress}>
+    <Pressable {...pressableAttributes}>
       <View style={appButtonStyle}>
         {content ? content : (<Text style={buttonTextStyle}>{title}</Text>)}
       </View>
