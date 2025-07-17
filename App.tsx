@@ -1,19 +1,34 @@
 import React from 'react';
 
-import AuthStackNavigator from '@navigation/AuthStackNavigator';
+import { useMMKVStorage } from 'react-native-mmkv-storage';
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
+
+import BottomTabNavigator from '@navigation/BottomTabNavigator';
+import AuthStackNavigator from '@navigation/AuthStackNavigator';
 
 import { appPopupAction } from '@store/slices/ui/appPopup';
 
 import AppPopup from '@components/appPopup/AppPopup';
 import AppProvider from '@components/AppProvider';
 
+import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
+
 function App() {
 
   const dispatch = useAppDispatch();
+  const [userAuthDetails] = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
 
   const appPopupState = useAppSelector((state) => state.ui.appPopup);
+
+  function renderAppNavigator() {
+
+    if (userAuthDetails) {
+      return <BottomTabNavigator />;
+    }
+
+    return <AuthStackNavigator />;
+  }
 
   const appPopupAttributes = {
     title: appPopupState.title,
@@ -28,7 +43,7 @@ function App() {
 
   return (
     <AppProvider>
-      <AuthStackNavigator />
+      {renderAppNavigator()}
       <AppPopup {...appPopupAttributes} />
     </AppProvider>
   );

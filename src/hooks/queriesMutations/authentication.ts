@@ -1,12 +1,16 @@
-import { useAppDispatch } from "@hooks/redux";
-import { ISigninModel } from "@interfaces/models/authentication";
-import { authenticationServices } from "@services/authentication";
 import { useMutation } from "@tanstack/react-query";
+
+import { useAppDispatch } from "@hooks/redux";
+
+import { ISigninModel } from "@interfaces/models/authentication";
+
+import { authenticationServices } from "@services/authentication";
+
+import { MMKV, STORAGE_KEYS } from "@utilities/mmkvStorage";
 
 export function useSigninUser() {
 
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
 
   return useMutation({
     mutationFn: (params: ISigninModel) => dispatch(authenticationServices.loginUser(params)),
@@ -15,19 +19,26 @@ export function useSigninUser() {
       const responseData = response?.data;
 
       if (responseData?.statusCode === 200) {
-
         const data = responseData?.data;
-        console.log(data, 'login details');
+        MMKV.setMap(STORAGE_KEYS.USER_AUTH_DETAILS, data);
+      }
 
-        // dispatch(userAuthActions.updateData(data));
-        // dispatch(commonUIActions.updateDisplayGalactixCoinsInstructions(true));
+    }
+  });
+}
 
-        // showCustomToast('Notification', 'Galactic Tip!  Discover the power of Galactix Coins and make the most of your interstellar journey!', true);
+export function useLogout() {
 
-        // setApplicationStorage(data);
+  const dispatch = useAppDispatch();
 
-        // navigate('/dashboard');
+  return useMutation({
+    mutationFn: () => dispatch(authenticationServices.logout()),
+    onSuccess: (response: any) => {
 
+      const responseData = response?.data;
+
+      if (responseData?.statusCode === 200) {
+        MMKV.removeItem(STORAGE_KEYS.USER_AUTH_DETAILS);
       }
 
     }

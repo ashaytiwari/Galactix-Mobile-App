@@ -23,6 +23,23 @@ class AuthenticationServices {
     }
   };
 
+  logout = () => async (dispatch: any) => {
+    try {
+      const response = await axiosClient.post('logout');
+
+      const responseData = response?.data;
+
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
+
+      return response;
+
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error);
+    }
+  };
+
 }
 
 export const authenticationServices = new AuthenticationServices();

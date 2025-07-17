@@ -1,19 +1,19 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-// import { clearApplicationStorage, getApplicationStorage } from "@utilities/storage";
+import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
-export const requestHandler = (request: InternalAxiosRequestConfig) => {
+export const requestHandler = async (request: InternalAxiosRequestConfig) => {
 
-  // const applicationStorage = getApplicationStorage();
-  // const token = applicationStorage?.tokenData.tokenId;
+  const userAuthDetails: any = await MMKV.getMapAsync(STORAGE_KEYS.USER_AUTH_DETAILS);
+  const token = userAuthDetails?.tokenData?.tokenId;
 
-  // if (typeof request.headers === 'undefined') {
-  //   return request;
-  // }
+  if (typeof request.headers === 'undefined') {
+    return request;
+  }
 
-  // if (token) {
-  //   request.headers['Authorization'] = 'Bearer ' + token;
-  // }
+  if (token) {
+    request.headers['Authorization'] = 'Bearer ' + token;
+  }
 
   return request;
 
