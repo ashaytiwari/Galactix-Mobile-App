@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { useAppDispatch } from "@hooks/redux";
 
-import { ISigninModel } from "@interfaces/models/authentication";
+import { ISigninModel, ISignupModel } from "@interfaces/models/authentication";
 
 import { authenticationServices } from "@services/authentication";
 
@@ -39,6 +39,25 @@ export function useLogout() {
 
       if (responseData?.statusCode === 200) {
         MMKV.removeItem(STORAGE_KEYS.USER_AUTH_DETAILS);
+      }
+
+    }
+  });
+}
+
+export function useSignupUser() {
+
+  const dispatch = useAppDispatch();
+
+  return useMutation({
+    mutationFn: (params: ISignupModel) => dispatch(authenticationServices.registerUser(params)),
+    onSuccess: (response: any) => {
+
+      const responseData = response?.data;
+
+      if (responseData?.statusCode === 200) {
+        const data = responseData?.data;
+        return data;
       }
 
     }
