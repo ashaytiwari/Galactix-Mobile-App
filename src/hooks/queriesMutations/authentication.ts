@@ -19,8 +19,7 @@ export function useSigninUser() {
       const responseData = response?.data;
 
       if (responseData?.statusCode === 200) {
-        const data = responseData?.data;
-        MMKV.setMap(STORAGE_KEYS.USER_AUTH_DETAILS, data);
+        MMKV.setMap(STORAGE_KEYS.USER_AUTH_DETAILS, responseData?.data);
       }
 
     }
@@ -50,16 +49,6 @@ export function useSignupUser() {
   const dispatch = useAppDispatch();
 
   return useMutation({
-    mutationFn: (params: ISignupModel) => dispatch(authenticationServices.registerUser(params)),
-    onSuccess: (response: any) => {
-
-      const responseData = response?.data;
-
-      if (responseData?.statusCode === 200) {
-        const data = responseData?.data;
-        return data;
-      }
-
-    }
+    mutationFn: (params: ISignupModel) => dispatch(authenticationServices.registerUser(params))
   });
 }

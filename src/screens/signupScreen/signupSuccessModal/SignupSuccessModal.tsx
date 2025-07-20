@@ -6,6 +6,8 @@ import { ISignupSuccessModalProps } from '@interfaces/uiInterfaces/authenticatio
 
 import AppButton from '@components/appButton/AppButton';
 
+import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
+
 import coinStackImage from '@assets/images/coinsStack.png';
 
 import styles from './SignupSuccessModal.styles';
@@ -26,7 +28,9 @@ const SignupSuccessModal: React.FC<ISignupSuccessModalProps> = (props) => {
 
   const startExploringControlAttributes = {
     title: 'Start Exploring 🚀',
-    onPress: onClose
+    onPress() {
+      MMKV.setMap(STORAGE_KEYS.USER_AUTH_DETAILS, userDetails);
+    }
   };
 
   return (
@@ -34,7 +38,7 @@ const SignupSuccessModal: React.FC<ISignupSuccessModalProps> = (props) => {
       <View style={styles.signupSuccessModalMain}>
 
         <View style={styles.bodyContent}>
-          <Text style={styles.heading}>Welcome Aboard, {userDetails.firstName} {userDetails.lastName}</Text>
+          <Text style={styles.heading}>Welcome Aboard, {userDetails?.firstName} {userDetails?.lastName}</Text>
           <Text style={styles.contentText}>
             Congratulations, Space Explorer! You've earned <Text style={styles.highlightedText}>50 Star Coins</Text> to kickstart your cosmic adventure.
             Use them to create communities, share your stellar ideas, and explore the galaxies with fellow voyagers.

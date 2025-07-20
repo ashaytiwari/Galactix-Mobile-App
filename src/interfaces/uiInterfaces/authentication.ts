@@ -1,4 +1,4 @@
-import { ISignupModel, ISignupPrimaryInfoFormModel } from "@interfaces/models/authentication";
+import { ISignupPrimaryInfoFormModel } from "@interfaces/models/authentication";
 
 export interface ISignupSecurityInfoFormProps {
   primaryInfoFormDetails: ISignupPrimaryInfoFormModel,
@@ -7,7 +7,7 @@ export interface ISignupSecurityInfoFormProps {
 
 export interface ISignupSuccessModalProps {
   open: boolean,
-  userDetails: ISignupModel,
+  userDetails: any,
   onClose: () => void
 }
 

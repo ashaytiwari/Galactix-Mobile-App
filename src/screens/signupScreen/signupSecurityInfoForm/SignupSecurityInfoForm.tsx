@@ -4,6 +4,8 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useFormik } from 'formik';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { useSignupUser } from '@hooks/queriesMutations/authentication';
+
 import { ISignupSecurityInfoFormProps } from '@interfaces/uiInterfaces/authentication';
 
 import FormInputTextControl from '@components/formControls/FormInputTextControl';
@@ -22,16 +24,28 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
 
   const { primaryInfoFormDetails, onBack } = props;
 
-  const [showSignupSuccessModal, setShowSignupSuccessModal] = useState(false);
+  const [showSignupSuccessModal, setShowSignupSuccessModal] = useState<any>(null);
   const [showInstructionsModal, setShowInstructionsModal] = useState(false);
+
+  const signupUserMutation = useSignupUser();
 
   const formik = useFormik({
     initialValues: setDefaultSignupSecurityInfoFormValues(),
     validate: validateSignupSecurityInfoForm,
-    onSubmit() { }
+    onSubmit: createAccount
   });
   const formikValues = formik.values;
   const formikErrors = formik.errors;
+
+  async function createAccount() {
+
+    const params = { ...primaryInfoFormDetails, ...formikValues };
+    const response: any = await signupUserMutation.mutateAsync(params);
+
+    if (response?.data?.statusCode === 200) {
+      setShowSignupSuccessModal(response?.data?.data);
+    }
+  }
 
   function openInstructionsModal() {
     setShowInstructionsModal(true);
@@ -53,7 +67,7 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
 
     return (
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onBack}>
           <Icon {...backIconAttributes} />
         </TouchableOpacity>
         <View style={styles.headerContent}>
@@ -102,9 +116,10 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
     };
 
     const saveSecurityDetailsControlAttributes = {
-      title: 'Save Security Details',
+      title: signupUserMutation.isPending === true ? 'Creating Account & Saving Details...' : 'Save Security Details',
+      disabled: signupUserMutation.isPending,
       onPress() {
-        setShowSignupSuccessModal(true);
+        formik.handleSubmit();
       }
     };
 
@@ -119,8 +134,8 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
   }
 
   const signupSuccessModalAttributes = {
-    open: showSignupSuccessModal,
-    userDetails: { firstName: 'Ashay', lastName: 'Tiwari', password: '121324345', authType: 'jasv', email: 'a.k@k.in' },
+    open: showSignupSuccessModal ? true : false,
+    userDetails: showSignupSuccessModal,
     onClose() {
       setShowSignupSuccessModal(false);
     }
