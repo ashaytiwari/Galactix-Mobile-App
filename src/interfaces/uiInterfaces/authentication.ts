@@ -10,3 +10,8 @@ export interface ISignupSuccessModalProps {
   userDetails: ISignupModel,
   onClose: () => void
 }
+
+export interface ISignupSecurityInstructionsModalProps {
+  open: boolean,
+  onClose: () => void
+}

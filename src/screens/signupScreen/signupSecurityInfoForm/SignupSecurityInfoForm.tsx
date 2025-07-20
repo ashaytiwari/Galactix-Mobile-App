@@ -12,6 +12,7 @@ import AppButton from '@components/appButton/AppButton';
 import { colors } from '@styles/colors';
 
 import SignupSuccessModal from '../signupSuccessModal/SignupSuccessModal';
+import SignupSecurityInstructionsModal from '../signupSecurityInstructionsModal/SignupSecurityInstructionsModal';
 
 import { setDefaultSignupSecurityInfoFormValues, validateSignupSecurityInfoForm } from '../utilities';
 
@@ -22,6 +23,7 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
   const { primaryInfoFormDetails, onBack } = props;
 
   const [showSignupSuccessModal, setShowSignupSuccessModal] = useState(false);
+  const [showInstructionsModal, setShowInstructionsModal] = useState(false);
 
   const formik = useFormik({
     initialValues: setDefaultSignupSecurityInfoFormValues(),
@@ -30,6 +32,10 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
   });
   const formikValues = formik.values;
   const formikErrors = formik.errors;
+
+  function openInstructionsModal() {
+    setShowInstructionsModal(true);
+  }
 
   function renderHeader() {
 
@@ -54,7 +60,7 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
           <Text style={styles.headerPrimaryText}>Security Details</Text>
           <Text style={styles.headerSecondaryText}>Just one last step! Complete the security details below to begin your journey.</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openInstructionsModal}>
           <Icon {...infoIconAttributes} />
         </TouchableOpacity>
       </View>
@@ -120,6 +126,13 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
     }
   };
 
+  const signupInstructionsModalAttributes = {
+    open: showInstructionsModal,
+    onClose() {
+      setShowInstructionsModal(false);
+    }
+  };
+
   return (
     <View style={styles.signupSecurityInfoFormMain}>
       <ScrollView style={styles.scrollViewContainer} keyboardShouldPersistTaps="handled">
@@ -127,6 +140,7 @@ const SignupSecurityInfoForm: React.FC<ISignupSecurityInfoFormProps> = (props) =
           {renderHeader()}
           {renderFormCard()}
           <SignupSuccessModal {...signupSuccessModalAttributes} />
+          <SignupSecurityInstructionsModal {...signupInstructionsModalAttributes} />
         </View>
       </ScrollView>
     </View>

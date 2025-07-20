@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   bodyContent: {
     borderRadius: 5,
-    width: '80%',
+    width: '90%',
     rowGap: 10,
     elevation: 5,
     shadowColor: colors.blackGlassy
