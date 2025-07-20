@@ -40,3 +40,9 @@ export interface IAppPopupProps {
   hideCloseButton?: boolean,
   footerControls?: Array<IAppPopupFooterControl>
 }
+
+export interface IAuthenticationLayoutProps {
+  title: string,
+  children: React.ReactNode,
+  headerStyle?: any
+}

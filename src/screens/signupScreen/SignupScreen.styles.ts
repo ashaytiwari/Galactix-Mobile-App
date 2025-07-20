@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@styles/colors";
-import { fontFamilies } from "@styles/fonts";
 
 const styles = StyleSheet.create({
   signupScreenMain: {
@@ -11,12 +10,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 40,
     rowGap: 10
-  },
-  heading: {
-    fontSize: 35,
-    fontFamily: fontFamilies.robotoBold,
-    color: colors.white,
-    marginBottom: 20
   },
   formCardContainer: {
     backgroundColor: colors.white,

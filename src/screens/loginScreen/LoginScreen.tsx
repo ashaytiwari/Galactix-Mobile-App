@@ -1,19 +1,17 @@
 import React from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { useFormik } from 'formik';
 
 import { useSigninUser } from '@hooks/queriesMutations/authentication';
 
-import BackgroundGradientImageWrapper from '@components/backgroundGradientImageWrapper/BackgroundGradientImageWrapper';
+import screenNames from '@constants/screenNames';
+
 import FormInputTextControl from '@components/formControls/FormInputTextControl';
 import FormSecureInputControl from '@components/formControls/FormSecureInputControl';
 import AppButton from '@components/appButton/AppButton';
-import screenNames from '@constants/screenNames';
-
-import { colors } from '@styles/colors';
+import AuthenticationLayout from '@components/authenticationLayout/AuthenticationLayout';
 
 import { setDefaultSigninFormValues, validateSigninForm } from './utilities';
 
@@ -37,31 +35,6 @@ function LoginScreen() {
 
   function navigateToSignup() {
     navigation.navigate(screenNames.SIGNUP);
-  }
-
-  function renderHeader() {
-
-    const backControlAttributes = {
-      onPress() {
-        navigation.goBack();
-      }
-    };
-
-    const backIconAttributes = {
-      name: 'return-up-back',
-      size: 40,
-      color: colors.white,
-    };
-
-    return (
-      <View style={styles.header}>
-        <Pressable {...backControlAttributes}>
-          <Icon {...backIconAttributes} />
-        </Pressable>
-        <Text style={styles.heading}>Welcome Back, Star Voyager! 🚀</Text>
-      </View>
-    );
-
   }
 
   function renderCreateAccountSection() {
@@ -143,20 +116,10 @@ function LoginScreen() {
 
   }
 
-  const keyboardAvoidingViewAttributes = {
-    style: { flex: 1 },
-    keyboardVerticalOffset: Platform.OS === 'ios' ? 100 : 30
-  };
-
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} {...keyboardAvoidingViewAttributes}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <BackgroundGradientImageWrapper>
-          {renderHeader()}
-          {renderFormCard()}
-        </BackgroundGradientImageWrapper>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    <AuthenticationLayout title='Welcome Back, Star Voyager! 🚀'>
+      {renderFormCard()}
+    </AuthenticationLayout>
   );
 
 }
