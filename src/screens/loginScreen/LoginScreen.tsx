@@ -37,13 +37,17 @@ function LoginScreen() {
     navigation.navigate(screenNames.SIGNUP);
   }
 
+  function navigateToForgotPassword() {
+    navigation.navigate(screenNames.FORGOT_PASSWORD);
+  }
+
   function renderCreateAccountSection() {
 
     return (
       <View style={styles.createAccountContainer}>
         <Text style={styles.createAccountText}>Don't have an account?</Text>
         <TouchableOpacity onPress={navigateToSignup}>
-          <Text style={styles.createAccountSigninControl}>Create account</Text>
+          <Text style={styles.linkControl}>Create account</Text>
         </TouchableOpacity>
       </View>
     );
@@ -103,6 +107,10 @@ function LoginScreen() {
 
             <FormInputTextControl {...emailControlAttributes} />
             <FormSecureInputControl {...passwordControlAttributes} />
+
+            <TouchableOpacity onPress={navigateToForgotPassword}>
+              <Text style={styles.linkControl}>Forgot Password?</Text>
+            </TouchableOpacity>
 
             <View style={styles.formFooter}>
               <AppButton {...signinControlAttributes} />

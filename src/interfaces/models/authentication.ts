@@ -26,3 +26,14 @@ export interface ISigninModel {
   password: string,
   authType: string
 }
+
+export interface IResetPasswordSecurityDetailsFormModel {
+  securityAnswer: string,
+  email?: string
+}
+
+export interface IResetPasswordFormModel {
+  email?: string,
+  newPassword: string,
+  securityCode?: string
+}

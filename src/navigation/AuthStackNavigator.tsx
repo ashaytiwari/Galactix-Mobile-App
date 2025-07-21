@@ -7,6 +7,7 @@ import screenNames from '@constants/screenNames';
 import HomeScreen from '@screens/homeScreen/HomeScreen';
 import LoginScreen from '@screens/loginScreen/LoginScreen';
 import SignupScreen from '@screens/signupScreen/SignupScreen';
+import ForgotPassword from '@screens/forgotPasswordScreen/ForgotPassword';
 
 import { AuthStackParamList } from './types';
 
@@ -24,6 +25,10 @@ const authScreenConfig = [
   {
     screenName: screenNames.SIGNUP,
     component: SignupScreen
+  },
+  {
+    screenName: screenNames.FORGOT_PASSWORD,
+    component: ForgotPassword
   },
 ];
 

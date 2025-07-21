@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   createAccountText: {
     fontSize: 15
   },
-  createAccountSigninControl: {
+  linkControl: {
     color: colors.primary,
     fontSize: 15,
     textDecorationStyle: 'solid',

@@ -1,0 +1,7 @@
+const resetPasswordSteps = {
+  EMAIL_ADDRESS_FORM: 'EMAIL_ADDRESS_FORM',
+  SECURITY_DETAILS_FORM: 'SECURITY_DETAILS_FORM',
+  RESET_PASSWORD_FORM: 'RESET_PASSWORD_FORM'
+};
+
+export default resetPasswordSteps;

@@ -1,8 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useAppDispatch } from "@hooks/redux";
 
-import { ISigninModel, ISignupModel } from "@interfaces/models/authentication";
+import { appPopupAction } from "@store/slices/ui/appPopup";
+
+import queryKeys from "@constants/queryKeys";
+import messages from "@constants/messages";
+
+import { IResetPasswordFormModel, IResetPasswordSecurityDetailsFormModel, ISigninModel, ISignupModel } from "@interfaces/models/authentication";
 
 import { authenticationServices } from "@services/authentication";
 
@@ -50,5 +55,56 @@ export function useSignupUser() {
 
   return useMutation({
     mutationFn: (params: ISignupModel) => dispatch(authenticationServices.registerUser(params))
+  });
+}
+
+export function useGetUserSecurityDetails() {
+
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+
+  async function fetchUserSecurityDetails(email: string) {
+
+    const data = await queryClient.fetchQuery({
+      queryKey: [queryKeys.userSecurityDetails, email],
+      staleTime: 0, // always call the api on execution
+      queryFn: () => dispatch(authenticationServices.getUserSecurityDetails(email))
+    });
+
+    return data;
+  }
+
+  return fetchUserSecurityDetails;
+
+}
+
+export function useVerifyUserSecurityDetails() {
+
+  const dispatch = useAppDispatch();
+
+  return useMutation({
+    mutationFn: (params: IResetPasswordSecurityDetailsFormModel) => dispatch(authenticationServices.verifySecurityDetails(params)),
+  });
+}
+
+export function useResetPassword() {
+
+  const dispatch = useAppDispatch();
+
+  return useMutation({
+    mutationFn: (params: IResetPasswordFormModel) => dispatch(authenticationServices.resetPassword(params)),
+    onSuccess: (response: any) => {
+
+      const responseData = response?.data;
+
+      if (responseData?.statusCode === 200) {
+        dispatch(appPopupAction.updateAppPopupState({
+          title: 'Success',
+          message: messages.resetPasswordSuccessMessage,
+          open: true
+        }));
+      }
+
+    }
   });
 }
