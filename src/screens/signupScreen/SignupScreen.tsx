@@ -34,7 +34,7 @@ function SignupScreen() {
   const navigation = useNavigation<any>();
 
   function navigateToSignin() {
-    navigation.navigate(screenNames.LOGIN);
+    navigation.replace(screenNames.LOGIN);
   }
 
   function renderAlreadyHaveAnAccountSection() {

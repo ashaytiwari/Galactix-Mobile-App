@@ -34,7 +34,7 @@ function LoginScreen() {
   const navigation = useNavigation<any>();
 
   function navigateToSignup() {
-    navigation.navigate(screenNames.SIGNUP);
+    navigation.replace(screenNames.SIGNUP);
   }
 
   function navigateToForgotPassword() {
