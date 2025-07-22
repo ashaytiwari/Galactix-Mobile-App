@@ -1,0 +1,45 @@
+import screenNames from "@constants/screenNames";
+import { IBottomTabScreenConfig } from "@interfaces/uiInterfaces/navigation";
+
+import Communities from "@screens/communities/Communities";
+import DashboardHome from "@screens/dashboardHome/DashboardHome";
+
+const bottomTabNavigatorConfig: Array<IBottomTabScreenConfig> = [
+  {
+    tabName: screenNames.DASHBOARD_HOME,
+    component: DashboardHome,
+    label: 'Home',
+    outlineIconName: 'home-outline',
+    solidIconName: 'home'
+  },
+  {
+    tabName: screenNames.COMMUNITIES,
+    component: Communities,
+    label: 'Communities',
+    outlineIconName: 'people-outline',
+    solidIconName: 'people-sharp'
+  },
+  {
+    tabName: screenNames.WALLET,
+    component: Communities,
+    label: 'Wallet',
+    outlineIconName: 'wallet-outline',
+    solidIconName: 'wallet'
+  },
+  {
+    tabName: screenNames.NOTIFICATIONS,
+    component: Communities,
+    label: 'Notification',
+    outlineIconName: 'notifications-outline',
+    solidIconName: 'notifications'
+  },
+  {
+    tabName: screenNames.PROFILE,
+    component: Communities,
+    label: 'Profile',
+    outlineIconName: 'person-outline',
+    solidIconName: 'person'
+  }
+];
+
+export default bottomTabNavigatorConfig;

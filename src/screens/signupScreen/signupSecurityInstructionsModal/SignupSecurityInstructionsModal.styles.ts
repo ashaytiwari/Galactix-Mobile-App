@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.tertiary,
     lineHeight: 20,
-    paddingBottom: 7
+    paddingBottom: 7,
   }
 });
 

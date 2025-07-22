@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   appLogoImage: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     resizeMode: 'contain',
     borderRadius: 5
   },

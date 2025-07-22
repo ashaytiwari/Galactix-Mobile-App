@@ -3,38 +3,17 @@ import React from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 import screenNames from '@constants/screenNames';
+import authScreenConfig from '@constants/navigation/authStackNavigator';
 
-import HomeScreen from '@screens/homeScreen/HomeScreen';
-import LoginScreen from '@screens/loginScreen/LoginScreen';
-import SignupScreen from '@screens/signupScreen/SignupScreen';
-import ForgotPassword from '@screens/forgotPasswordScreen/ForgotPassword';
+import { IAuthScreenConfig } from '@interfaces/uiInterfaces/navigation';
 
 import { AuthStackParamList } from './types';
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
-const authScreenConfig = [
-  {
-    screenName: screenNames.HOME,
-    component: HomeScreen
-  },
-  {
-    screenName: screenNames.LOGIN,
-    component: LoginScreen
-  },
-  {
-    screenName: screenNames.SIGNUP,
-    component: SignupScreen
-  },
-  {
-    screenName: screenNames.FORGOT_PASSWORD,
-    component: ForgotPassword
-  },
-];
-
 function AuthStackNavigator() {
 
-  function renderStackScreen(screen: any, index: number) {
+  function renderStackScreen(screen: IAuthScreenConfig, index: number) {
 
     const stackScreenAttributes = {
       name: screen.screenName,
