@@ -1,0 +1,100 @@
+import React from 'react';
+import { ImageBackground, Modal, SafeAreaView, ScrollView, Text, View } from 'react-native';
+
+import { IModalProps } from '@interfaces/uiInterfaces/generic';
+import { earnCoinsInstructions, spendCoinsInstructions } from '@constants/coinsInstructions';
+
+import AppButton from '@components/appButton/AppButton';
+
+import styles from './CoinsInstructionsModal.style';
+
+const CoinsInstructionsModal: React.FC<IModalProps> = (props) => {
+
+  const { open, onClose } = props;
+
+  function renderListItem(instruction: string, index: number) {
+
+    return (
+      <View style={styles.listItem} key={index}>
+        <Text style={styles.bullet}>{'\u2022'}</Text>
+        <Text style={styles.instructionText}>{instruction}</Text>
+      </View>
+    );
+
+  }
+
+  function renderList(title: string, instructions: Array<string>) {
+
+    return (
+      <View>
+        <Text style={[styles.boldText, styles.text, { marginBottom: 4 }]}>{title}</Text>
+        {
+          instructions.map((instruction, index) => (
+            renderListItem(instruction, index)
+          ))
+        }
+      </View>
+    );
+
+  }
+
+  function renderHeader() {
+
+    return (
+      <View style={styles.header}>
+        <Text style={styles.heading}>Galactix Coins: Your Key to the Universe</Text>
+      </View>
+    );
+
+  }
+
+  function renderContent() {
+
+    const continueControlAttributes = {
+      title: 'Continue  🚀',
+      containerStyle: styles.continueButton,
+      onPress() { }
+    };
+
+    return (
+      <View style={styles.content}>
+        <Text style={styles.text}>
+          Galactix Coins are your gateway to exciting opportunities! Earn coins by engaging with the
+          app and spend them to enhance your interstellar journey. Begin your adventure today!
+        </Text>
+        <Text style={styles.text}><Text style={[styles.boldText, styles.text]}>Your Balance:</Text> 50 Galactix Coin(s)</Text>
+        {renderList('How to earn coins?', earnCoinsInstructions)}
+        {renderList('How to spend coins?', spendCoinsInstructions)}
+        <AppButton {...continueControlAttributes} />
+      </View>
+    );
+
+  }
+
+  const modalAttributes = {
+    visible: open,
+    onRequestClose: onClose
+  };
+
+  const imageBackgroundAttributes = {
+    source: require('@assets/images/paperTexture.jpg'),
+    style: styles.imageBackgroundContainer
+  };
+
+  return (
+    <Modal {...modalAttributes} animationType='fade'>
+      <ImageBackground {...imageBackgroundAttributes}>
+        <SafeAreaView>
+          <ScrollView style={styles.coinsInstructionsModalMain}>
+            {renderHeader()}
+            {renderContent()}
+          </ScrollView>
+        </SafeAreaView>
+      </ImageBackground>
+    </Modal>
+  );
+
+
+};
+
+export default CoinsInstructionsModal;

@@ -46,3 +46,8 @@ export interface IAuthenticationLayoutProps {
   children: React.ReactNode,
   headerStyle?: any
 }
+
+export interface IModalProps {
+  open: boolean,
+  onClose: () => void
+}
