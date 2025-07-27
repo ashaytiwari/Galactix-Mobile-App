@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ImageBackground, Modal, SafeAreaView, ScrollView, Text, View } from 'react-native';
+
+import Sound from 'react-native-sound';
 
 import { IModalProps } from '@interfaces/uiInterfaces/generic';
 import { earnCoinsInstructions, spendCoinsInstructions } from '@constants/coinsInstructions';
@@ -11,6 +13,31 @@ import styles from './CoinsInstructionsModal.style';
 const CoinsInstructionsModal: React.FC<IModalProps> = (props) => {
 
   const { open, onClose } = props;
+
+  let audioTrack: Sound | null = null;
+
+  useEffect(() => {
+
+    if (!open) {
+      return;
+    }
+
+    // Load the audio
+    audioTrack = new Sound(require('@assets/soundtracks/coinsInstructionsSoundtrack.mp3'), (error) => {
+      if (!error) {
+        audioTrack?.play();
+      } else {
+        console.error('Error loading sound:', error);
+      }
+    });
+
+    return () => {
+      // Cleanup: stop and release audio when modal closes
+      audioTrack?.stop();
+      audioTrack?.release();
+    };
+
+  }, [open]);
 
   function renderListItem(instruction: string, index: number) {
 
@@ -53,7 +80,7 @@ const CoinsInstructionsModal: React.FC<IModalProps> = (props) => {
     const continueControlAttributes = {
       title: 'Continue  🚀',
       containerStyle: styles.continueButton,
-      onPress() { }
+      onPress: onClose
     };
 
     return (
@@ -93,7 +120,6 @@ const CoinsInstructionsModal: React.FC<IModalProps> = (props) => {
       </ImageBackground>
     </Modal>
   );
-
 
 };
 
