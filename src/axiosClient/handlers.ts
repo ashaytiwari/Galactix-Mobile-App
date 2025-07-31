@@ -60,6 +60,10 @@ export const errorHandler = (error: AxiosError) => {
 
   const _error: any = error.response;
 
+  if (_error && _error.data.statusCode === 401) {
+    MMKV.removeItem(STORAGE_KEYS.USER_AUTH_DETAILS);
+  }
+
   if (_error && _error.data?.statusCode === 500) {
     throw new Error(`Something went wrong. Internal server error: ${_error}`);
   }

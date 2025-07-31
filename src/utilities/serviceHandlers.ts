@@ -11,6 +11,10 @@ export function handleRESTServerInteractionError(dispatch: any, error: any, iner
     errorMessage = `${firstErrorMessageItem?.path}-${firstErrorMessageItem?.msg}`;
   }
 
+  if (error.statusCode === 401) {
+    errorMessage = 'Session Expired! You have been logged out. Please login to continue...'
+  }
+
   dispatch(appPopupAction.updateAppPopupState({
     title: 'Alert',
     message: errorMessage,

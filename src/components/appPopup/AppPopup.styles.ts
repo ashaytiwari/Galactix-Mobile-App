@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: colors.primaryBackground,
     borderWidth: 1,
-    borderColor: colors.tertiary,
+    borderColor: colors.darkTransparentColor,
     borderRadius: 10,
     width: '80%',
     marginVertical: 0,
