@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -77,6 +78,7 @@ function BottomTabNavigator() {
       tabBarInactiveTintColor: colors.tertiary,
       tabBarStyle: {
         backgroundColor: colors.primaryBackground,
+        height: Platform.OS === 'ios' ? 50 : 70
       },
       tabBarLabelStyle: {
         marginTop: 2,
