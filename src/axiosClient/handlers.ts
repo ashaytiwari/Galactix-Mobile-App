@@ -5,6 +5,7 @@ import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 export const requestHandler = async (request: InternalAxiosRequestConfig) => {
 
   const userAuthDetails: any = await MMKV.getMapAsync(STORAGE_KEYS.USER_AUTH_DETAILS);
+
   const token = userAuthDetails?.tokenData?.tokenId;
 
   if (typeof request.headers === 'undefined') {

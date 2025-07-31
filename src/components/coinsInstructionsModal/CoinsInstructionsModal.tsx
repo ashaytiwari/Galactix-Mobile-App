@@ -3,6 +3,8 @@ import { ImageBackground, Modal, SafeAreaView, ScrollView, Text, View } from 're
 
 import Sound from 'react-native-sound';
 
+import { useAppSelector } from '@hooks/redux';
+
 import { IModalProps } from '@interfaces/uiInterfaces/generic';
 import { earnCoinsInstructions, spendCoinsInstructions } from '@constants/coinsInstructions';
 
@@ -15,6 +17,8 @@ const CoinsInstructionsModal: React.FC<IModalProps> = (props) => {
   const { open, onClose } = props;
 
   let audioTrack: Sound | null = null;
+
+  const userProfile = useAppSelector((state) => state.user.userProfile);
 
   useEffect(() => {
 
@@ -89,7 +93,7 @@ const CoinsInstructionsModal: React.FC<IModalProps> = (props) => {
           Galactix Coins are your gateway to exciting opportunities! Earn coins by engaging with the
           app and spend them to enhance your interstellar journey. Begin your adventure today!
         </Text>
-        <Text style={styles.text}><Text style={[styles.boldText, styles.text]}>Your Balance:</Text> 50 Galactix Coin(s)</Text>
+        <Text style={styles.text}><Text style={[styles.boldText, styles.text]}>Your Balance:</Text> {userProfile?.coins || 0} Galactix Coin(s)</Text>
         {renderList('How to earn coins?', earnCoinsInstructions)}
         {renderList('How to spend coins?', spendCoinsInstructions)}
         <AppButton {...continueControlAttributes} />

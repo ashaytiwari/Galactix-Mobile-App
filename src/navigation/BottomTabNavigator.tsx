@@ -2,17 +2,26 @@ import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useMMKVStorage } from 'react-native-mmkv-storage';
+
+import { useGetUserProfile } from '@hooks/queriesMutations/users';
 
 import screenNames from '@constants/screenNames';
 import bottomTabNavigatorConfig from '@constants/navigation/bottomTabNavigator';
 
 import { IBottomTabScreenConfig } from '@interfaces/uiInterfaces/navigation';
 
+import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
+
 import { colors } from '@styles/colors';
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
+
+  const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
+
+  const userProfileQuery = useGetUserProfile(userAuthDetails?._id);
 
   function renderTabBarIcon(params: any, tab: IBottomTabScreenConfig) {
 
