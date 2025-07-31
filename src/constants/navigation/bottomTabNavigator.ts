@@ -3,6 +3,7 @@ import { IBottomTabScreenConfig } from "@interfaces/uiInterfaces/navigation";
 
 import Communities from "@screens/communities/Communities";
 import DashboardHome from "@screens/dashboardHome/DashboardHome";
+import ProfileScreen from "@screens/profileScreen/ProfileScreen";
 
 const bottomTabNavigatorConfig: Array<IBottomTabScreenConfig> = [
   {
@@ -35,7 +36,7 @@ const bottomTabNavigatorConfig: Array<IBottomTabScreenConfig> = [
   },
   {
     tabName: screenNames.PROFILE,
-    component: Communities,
+    component: ProfileScreen,
     label: 'Profile',
     outlineIconName: 'person-outline',
     solidIconName: 'person'

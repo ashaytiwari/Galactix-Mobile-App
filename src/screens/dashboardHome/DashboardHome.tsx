@@ -5,6 +5,7 @@ import { useLogout } from '@hooks/queriesMutations/authentication';
 
 import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
 import CoinsInstructionsModal from '@components/coinsInstructionsModal/CoinsInstructionsModal';
+import AppHeader from '@components/appHeader/AppHeader';
 
 function DashboardHome() {
 
@@ -27,6 +28,7 @@ function DashboardHome() {
 
   return (
     <BackgroundWallpaperWrapper>
+      <AppHeader />
       <Text>Dashboard Home</Text>
       <TouchableOpacity onPress={toggleCoinsInstructions}><Text>Show Instructions</Text></TouchableOpacity>
       <TouchableOpacity onPress={logout}><Text>Logout</Text></TouchableOpacity>
