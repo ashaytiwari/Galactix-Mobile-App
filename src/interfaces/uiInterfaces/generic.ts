@@ -51,3 +51,9 @@ export interface IModalProps {
   open: boolean,
   onClose: () => void
 }
+
+export interface IAppAvatarProps {
+  text: string,
+  containerStyle?: any,
+  textStyle?: any
+}

@@ -11,9 +11,14 @@ import bottomTabNavigatorConfig from '@constants/navigation/bottomTabNavigator';
 
 import { IBottomTabScreenConfig } from '@interfaces/uiInterfaces/navigation';
 
+import AppAvatar from '@components/appAvatar/AppAvatar';
+import Spinner from '@components/spinner/Spinner';
+
 import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
 import { colors } from '@styles/colors';
+
+import styles from './Navigation.styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +29,18 @@ function BottomTabNavigator() {
   const userProfileQuery = useGetUserProfile(userAuthDetails?._id);
 
   function renderTabBarIcon(params: any, tab: IBottomTabScreenConfig) {
+
+    if (tab.tabName === screenNames.PROFILE) {
+
+      const appAvatarAttributes = {
+        text: `${userAuthDetails.firstName} ${userAuthDetails.lastName}`,
+        containerStyle: params.focused ? [styles.appAvatarContainer, styles.activeAvatar] : styles.appAvatarContainer,
+        textStyle: params.focused ? [styles.appAvatarText, styles.activeAvatarText] : styles.appAvatarText
+      };
+
+      return <AppAvatar {...appAvatarAttributes} />;
+
+    }
 
     const iconAttributes = {
       name: params.focused ? tab.solidIconName : tab.outlineIconName,
@@ -48,6 +65,10 @@ function BottomTabNavigator() {
     return <Tab.Screen {...tabAttributes} key={index} />;
   }
 
+  if (userProfileQuery.isPending === true) {
+    return <Spinner />;
+  }
+
   const tabNavigatorAttributes = {
     initialRouteName: screenNames.DASHBOARD_HOME,
     screenOptions: {
@@ -58,6 +79,7 @@ function BottomTabNavigator() {
         backgroundColor: colors.primaryBackground,
       },
       tabBarLabelStyle: {
+        marginTop: 2,
         marginBottom: 4,
         fontWeight: "500",
         fontSize: 10.5,
