@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   appButtonMain: {
     backgroundColor: colors.primary,
     borderRadius: 5,
-    paddingVertical: 12,
+    paddingVertical: 11,
     paddingHorizontal: 22,
     margin: 4,
     elevation: 2,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { IButtonProps } from '@interfaces/uiInterfaces/generic';
 
@@ -23,11 +23,11 @@ const AppButton: React.FC<IButtonProps> = (props) => {
   };
 
   return (
-    <Pressable {...pressableAttributes}>
+    <TouchableOpacity {...pressableAttributes}>
       <View style={appButtonStyle}>
         {content ? content : (<Text style={buttonTextStyle}>{title}</Text>)}
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 
 };

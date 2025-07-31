@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     position: 'relative'
-    // backgroundColor: colors.darkTransparentColor
   },
   headerTitle: {
     fontSize: 24,
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: colors.darkTransparentColor
+    borderColor: colors.darkTransparentColor,
   },
   moreInfoPopupBackdrop: {
     flex: 1,
@@ -35,6 +34,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').height,
     position: 'absolute',
     top: 0,
+    zIndex: 9,
+    backgroundColor: colors.homeGradientBlack
   },
   moreInfoContent: {
     backgroundColor: colors.white,
