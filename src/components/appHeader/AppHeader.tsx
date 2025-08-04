@@ -7,12 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 import { useLogout } from '@hooks/queriesMutations/authentication';
 
 import screenNames from '@constants/screenNames';
+import { IAppHeaderProps } from '@interfaces/uiInterfaces/generic';
 
 import { colors } from '@styles/colors';
 
 import styles from './AppHeader.styles';
 
-const AppHeader = () => {
+const AppHeader: React.FC<IAppHeaderProps> = (props) => {
+
+  const { title } = props;
 
   const navigation = useNavigation<any>();
   const logoutMutation = useLogout();
@@ -96,7 +99,7 @@ const AppHeader = () => {
 
   return (
     <View style={styles.appHeaderMain}>
-      <Text style={styles.headerTitle}>Galactix 🚀</Text>
+      <Text style={styles.headerTitle}>{title}</Text>
       <TouchableOpacity {...moreControlAttributes}>
         <Icon {...moreIconAttributes} />
       </TouchableOpacity>

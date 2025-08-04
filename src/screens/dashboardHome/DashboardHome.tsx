@@ -28,7 +28,7 @@ function DashboardHome() {
 
   return (
     <BackgroundWallpaperWrapper>
-      <AppHeader />
+      <AppHeader title='Galactix 🚀' />
       <Text>Dashboard Home</Text>
       <TouchableOpacity onPress={toggleCoinsInstructions}><Text>Show Instructions</Text></TouchableOpacity>
       <TouchableOpacity onPress={logout}><Text>Logout</Text></TouchableOpacity>

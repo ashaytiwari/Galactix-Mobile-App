@@ -57,3 +57,7 @@ export interface IAppAvatarProps {
   containerStyle?: any,
   textStyle?: any
 }
+
+export interface IAppHeaderProps {
+  title: string
+}

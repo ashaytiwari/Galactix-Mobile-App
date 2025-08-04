@@ -46,7 +46,7 @@ function ProfileScreen() {
   return (
     <BackgroundWallpaperWrapper>
 
-      <AppHeader />
+      <AppHeader title='Profile' />
 
       <View style={styles.profileScreenMain}>
         <Text style={styles.title}>Your Cosmic Identity</Text>
