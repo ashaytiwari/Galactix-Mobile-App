@@ -61,3 +61,11 @@ export interface IAppAvatarProps {
 export interface IAppHeaderProps {
   title: string
 }
+
+export interface IAppSearchBarProps {
+  placeholder: string,
+  name: string,
+  value: string,
+  onChange: (value: string) => void,
+  onClear: () => void
+}
