@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
   },
   activeAvatarText: {
     color: colors.white
+  },
+  tabNavigatorBackground: {
+    backgroundColor: colors.primaryBackground
   }
 });
 

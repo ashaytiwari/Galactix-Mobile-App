@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useMMKVStorage } from 'react-native-mmkv-storage';
 
+import { SocketProvider } from '@context/SocketContext';
+
 import { useGetUserProfile } from '@hooks/queriesMutations/users';
 
 import screenNames from '@constants/screenNames';
@@ -94,13 +96,15 @@ function BottomTabNavigator() {
   };
 
   return (
-    <Tab.Navigator {...tabNavigatorAttributes}>
-      {
-        bottomTabNavigatorConfig.map((tab, index) => (
-          renderTab(tab, index)
-        ))
-      }
-    </Tab.Navigator>
+    <SocketProvider>
+      <Tab.Navigator {...tabNavigatorAttributes}>
+        {
+          bottomTabNavigatorConfig.map((tab, index) => (
+            renderTab(tab, index)
+          ))
+        }
+      </Tab.Navigator>
+    </SocketProvider>
   );
 
 }

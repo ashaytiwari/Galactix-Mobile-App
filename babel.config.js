@@ -10,6 +10,7 @@ module.exports = {
           '@axiosClient': './src/axiosClient',
           '@components': './src/components',
           '@constants': './src/constants',
+          '@context': './src/context',
           '@hooks': './src/hooks',
           '@interfaces': './src/interfaces',
           '@navigation': './src/navigation',
