@@ -8,3 +8,7 @@ export interface IExploreCommunitiesStateModel {
   tab: string,
   textSearch: string
 }
+
+export interface ICommunityTileModel {
+  community: ICommunityModel
+}

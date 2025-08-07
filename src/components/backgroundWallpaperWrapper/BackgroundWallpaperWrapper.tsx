@@ -59,7 +59,7 @@ const BackgroundWallpaperWrapper: React.FC<IChildrenProps> = (props) => {
 
   return (
     <ImageBackground {...imageBackgroundAttributes}>
-      <BlurView {...blurViewAttributes} blurType='light' />
+      {/* <BlurView {...blurViewAttributes} blurType='light' /> */}
       {children}
     </ImageBackground>
   );

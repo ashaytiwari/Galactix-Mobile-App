@@ -1,19 +1,30 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
 
-import styles from './Communities.styles';
-import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
-import AppHeader from '@components/appHeader/AppHeader';
-import { IExploreCommunitiesStateModel } from '@interfaces/uiInterfaces/communities';
-import { getCommunitiesRequestTypes } from '@constants/getCommunitiesRequestTypes';
 import { useMMKVStorage } from 'react-native-mmkv-storage';
-import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
+
 import { useGetCommunities } from '@hooks/queriesMutations/communities';
+
+import { IExploreCommunitiesStateModel } from '@interfaces/uiInterfaces/communities';
 import { IPaginationMetadataModel } from '@interfaces/models/common';
 import { ICommunityModel } from '@interfaces/models/communities';
-import { debounce } from 'lodash';
 
-const PAGINATION_LIMIT = 2;
+import { getCommunitiesRequestTypes } from '@constants/getCommunitiesRequestTypes';
+import communityTabs from '@constants/communitiesTabs';
+
+import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
+import AppHeader from '@components/appHeader/AppHeader';
+import AppSearchBar from '@components/appSearchBar/AppSearchBar';
+
+import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
+
+import { colors } from '@styles/colors';
+
+import CommunityTile from './communityTile/CommunityTile';
+
+import styles from './Communities.styles';
+
+const PAGINATION_LIMIT = 5;
 
 function Communities() {
 
@@ -34,11 +45,7 @@ function Communities() {
     fetchCommunities(rootState.page, rootState.textSearch, rootState.tab);
   }, []);
 
-  console.log(rootState);
-
   const fetchCommunities = useCallback(async (page: number, textSearch: string, tab: string) => {
-
-    console.log(rootState.hasMore);
 
     updateRootState('loading', true);
 
@@ -53,13 +60,7 @@ function Communities() {
     const newRecords = paginatedResponseData.records;
     const metadata: IPaginationMetadataModel = paginatedResponseData.pagination;
 
-    console.log(paginatedResponseData);
-
     setRootState((_rootState) => {
-
-      if (_rootState.hasMore === false) {
-        return _rootState;
-      }
 
       const isTextSearchQueryChanged = textSearch !== _rootState.textSearch;
       const isTabChanged = tab !== _rootState.tab;
@@ -99,17 +100,85 @@ function Communities() {
     });
   }
 
-  const handleEndReached = useCallback(
-    debounce(() => {
-      fetchCommunities(rootState.page + 1, rootState.textSearch, rootState.tab);
-    }, 300), // 300ms debounce
-    [rootState.page, rootState.hasMore, rootState.loading]
-  );
+  function handleEndReached() {
+
+    if (rootState.loading || !rootState.hasMore) {
+      return;
+    }
+
+    fetchCommunities(rootState.page + 1, rootState.textSearch, rootState.tab);
+  }
 
   function renderCommunityItem(community: ICommunityModel, index: number) {
+
+    const communityTileAttributes = {
+      community
+    };
+
+    return <CommunityTile {...communityTileAttributes} />;
+  }
+
+  function renderListFooterComponent() {
+
+    if (rootState.loading === false) {
+      return <View style={{ marginVertical: 60 }}></View>;
+    }
+
+    const activityIndicatorAttributes = {
+      color: colors.white,
+      style: { marginTop: 10, marginBottom: 20 }
+    };
+
+    return <ActivityIndicator size='large' {...activityIndicatorAttributes} />;
+  }
+
+  function renderFilterTab(tab: any, index: number) {
+
+    let filterTabStyle: any = styles.filterTab;
+
+    if (rootState.tab === tab.value) {
+      filterTabStyle = [styles.filterTab, styles.activeFilterTab];
+    }
+
+    const filterTabAttributes = {
+      style: filterTabStyle,
+      onPress() {
+        fetchCommunities(1, '', tab.value);
+      }
+    };
+
     return (
-      <View style={styles.communityItemWrapper}>
-        <Text>{community.communityName}</Text>
+      <TouchableOpacity {...filterTabAttributes} key={index}>
+        <Text style={styles.filterTabText}>{tab.name}</Text>
+      </TouchableOpacity>
+    );
+
+  }
+
+  function renderFilters() {
+
+    const appSearchBarAttributes = {
+      placeholder: 'Search',
+      name: 'search',
+      value: rootState.textSearch,
+      onChange(text: string) {
+        fetchCommunities(1, text, rootState.tab);
+      },
+      onClear() {
+        fetchCommunities(1, '', rootState.tab);
+      }
+    };
+
+    return (
+      <View style={styles.filtersWrapper}>
+        <AppSearchBar {...appSearchBarAttributes} />
+        <View style={styles.filterTabsWrapper}>
+          {
+            communityTabs.map((tab, index) => (
+              renderFilterTab(tab, index)
+            ))
+          }
+        </View>
       </View>
     );
   }
@@ -121,23 +190,20 @@ function Communities() {
     },
     keyExtractor: (item: ICommunityModel) => item._id,
     onEndReached: handleEndReached,
-    onEndReachedThreshold: 0,
-    ListFooterComponent: () => (
-      rootState.loading ? <ActivityIndicator size="large" color="blue" style={{ margin: 20 }} /> : null
-    )
+    onEndReachedThreshold: 0.5,
+    ListFooterComponent: renderListFooterComponent,
+    contentContainerStyle: styles.communitiesListContainer
   };
 
   return (
     <BackgroundWallpaperWrapper>
 
-      <AppHeader />
+      <AppHeader title='Communities' />
 
-      <View>
-        <Text>Community</Text>
-
+      <View style={styles.communitiesMain}>
+        {renderFilters()}
         <FlatList {...communitiesListAttributes} />
       </View>
-
 
     </BackgroundWallpaperWrapper>
   );

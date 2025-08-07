@@ -69,3 +69,10 @@ export interface IAppSearchBarProps {
   onChange: (value: string) => void,
   onClear: () => void
 }
+
+export interface IAppScaledImageProps {
+  url: string,
+  width: number,
+  height: any,
+  imageStyle?: any
+}

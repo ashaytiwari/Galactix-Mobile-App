@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   inputControl: {
     flex: 1,
     padding: 12,
+    paddingLeft: 0,
     fontSize: 15,
     color: colors.white
   }

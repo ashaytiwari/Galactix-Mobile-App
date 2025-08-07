@@ -9,7 +9,7 @@ import { colors } from '@styles/colors';
 
 const AppScaledImage: React.FC<IAppScaledImageProps> = React.memo((props) => {
 
-  const { width, url, imageStyle } = props;
+  const { width, height, url, imageStyle } = props;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,7 +20,7 @@ const AppScaledImage: React.FC<IAppScaledImageProps> = React.memo((props) => {
     }
 
     return (
-      <View style={{ backgroundColor: colors.darkTransparentColor }}>
+      <View style={{ backgroundColor: colors.darkTransparentColor, width, height, borderRadius: '50%', alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator color="#fff" size="small" />
       </View>
     );
@@ -34,11 +34,10 @@ const AppScaledImage: React.FC<IAppScaledImageProps> = React.memo((props) => {
       cache: FastImage.cacheControl.immutable,
     },
     style: [{
-      width,
-      height: 85,
-      backgroundColor: colors.eclipseGray
+      width: width,
+      height: height,
     }, imageStyle],
-    resizeMode: FastImage.resizeMode.contain,
+    resizeMode: FastImage.resizeMode.cover,
     onLoadStart() {
       setIsLoading(true);
     },
