@@ -114,7 +114,8 @@ function Communities() {
   function renderCommunityItem(community: ICommunityModel, index: number) {
 
     const communityTileAttributes = {
-      community
+      community,
+      callingFrom: rootState.tab
     };
 
     return <CommunityTile {...communityTileAttributes} />;

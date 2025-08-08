@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.blackGlassy,
     borderWidth: 1,
-    borderColor: colors.homeGradientBlack,
+    borderColor: colors.darkTransparentColor,
     borderRadius: 7,
     paddingHorizontal: 15,
   },

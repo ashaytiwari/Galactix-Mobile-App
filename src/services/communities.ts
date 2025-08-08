@@ -37,28 +37,28 @@ class CommunitiesServices {
     }
   };
 
-  // getCommunitiesChatList = (page: number, limit: number, userId: string, textSearch?: string) => async (dispatch: any) => {
-  //   try {
+  getCommunitiesChatList = (page: number, limit: number, userId: string, textSearch?: string) => async (dispatch: any) => {
+    try {
 
-  //     let url = `api/getCommunitiesChatList?page=${page}&limit=${limit}&userId=${userId}`;
+      let url = `getCommunitiesChatList?page=${page}&limit=${limit}&userId=${userId}`;
 
-  //     if (textSearch) {
-  //       url += `&textSearch=${textSearch}`;
-  //     }
+      if (textSearch) {
+        url += `&textSearch=${textSearch}`;
+      }
 
-  //     const response = await axiosClient.get(url);
-  //     const responseData = response?.data;
+      const response = await axiosClient.get(url);
+      const responseData = response?.data;
 
-  //     if (responseData?.statusCode !== 200) {
-  //       throw responseData;
-  //     }
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
 
-  //     return response;
+      return response;
 
-  //   } catch (error) {
-  //     handleRESTServerInteractionError(dispatch, error, true);
-  //   }
-  // };
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error, true);
+    }
+  };
 
   // joinCommunity = (params: IJoinCommunityParamsModel) => async (dispatch: any) => {
   //   try {

@@ -26,25 +26,25 @@ export function useGetCommunities() {
 
 }
 
-// export function useGetCommunitiesChatList() {
+export function useGetCommunitiesChatList() {
 
-//   const dispatch = useAppDispatch();
-//   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-//   async function fetchCommunitiesChatList(page: number, limit: number, userId: string, textSearch?: string) {
+  async function fetchCommunitiesChatList(page: number, limit: number, userId: string, textSearch?: string) {
 
-//     const data = await queryClient.fetchQuery({
-//       queryKey: [queryKeys.communitiesChatList, page, limit, userId, textSearch],
-//       staleTime: 0, // always call the api on execution
-//       queryFn: () => dispatch(communityServices.getCommunitiesChatList(page, limit, userId, textSearch))
-//     });
+    const data = await queryClient.fetchQuery({
+      queryKey: [queryKeys.communitiesChatList, page, limit, userId, textSearch],
+      staleTime: 0, // always call the api on execution
+      queryFn: () => dispatch(communityServices.getCommunitiesChatList(page, limit, userId, textSearch))
+    });
 
-//     return data;
-//   }
+    return data;
+  }
 
-//   return fetchCommunitiesChatList;
+  return fetchCommunitiesChatList;
 
-// }
+}
 
 // export function useJoinCommunity() {
 

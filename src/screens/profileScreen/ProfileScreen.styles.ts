@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   fieldView: {
     borderWidth: 1,
-    borderColor: colors.homeGradientBlack,
+    borderColor: colors.darkTransparentColor,
     backgroundColor: colors.blackGlassy,
     borderRadius: 7,
     paddingHorizontal: 10,

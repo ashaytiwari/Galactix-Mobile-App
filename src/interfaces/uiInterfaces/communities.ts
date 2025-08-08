@@ -10,5 +10,14 @@ export interface IExploreCommunitiesStateModel {
 }
 
 export interface ICommunityTileModel {
-  community: ICommunityModel
+  community: ICommunityModel,
+  callingFrom: string
+}
+
+export interface IHomeCommunitiesChatListStateModel {
+  communities: Array<ICommunityModel>,
+  page: number,
+  loading: boolean,
+  hasMore: boolean,
+  textSearch: string
 }

@@ -4,6 +4,7 @@ import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { ICommunityTileModel } from '@interfaces/uiInterfaces/communities';
+import { getCommunitiesRequestTypes } from '@constants/getCommunitiesRequestTypes';
 
 import AppAvatar from '@components/appAvatar/AppAvatar';
 import AppScaledImage from '@components/AppScaledImage';
@@ -12,9 +13,9 @@ import { colors } from '@styles/colors';
 
 import styles from './CommunityTile.styles';
 
-const CommunityTile: React.FC<ICommunityTileModel> = (props) => {
+const CommunityTile: React.FC<ICommunityTileModel> = React.memo((props) => {
 
-  const { community } = props;
+  const { community, callingFrom } = props;
 
   function renderCommunityProfileImage() {
 
@@ -46,6 +47,10 @@ const CommunityTile: React.FC<ICommunityTileModel> = (props) => {
 
   function renderPrivateCommunityLockControl() {
 
+    if (callingFrom === getCommunitiesRequestTypes.HOME_CHAT_COMMUNITIES) {
+      return;
+    }
+
     if (community.isPrivate === false) {
       return;
     }
@@ -66,6 +71,10 @@ const CommunityTile: React.FC<ICommunityTileModel> = (props) => {
 
     if (community.communityDescription.length > 100) {
       _description = `${community.communityDescription.substring(0, 100)}...`;
+    }
+
+    if (callingFrom === getCommunitiesRequestTypes.HOME_CHAT_COMMUNITIES) {
+      _description = community.lastActivity?.message;
     }
 
     return (
@@ -90,6 +99,6 @@ const CommunityTile: React.FC<ICommunityTileModel> = (props) => {
     </TouchableOpacity>
   );
 
-};
+});
 
 export default CommunityTile;
