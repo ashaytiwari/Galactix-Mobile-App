@@ -5,6 +5,7 @@ import Communities from "@screens/communities/Communities";
 import DashboardHome from "@screens/dashboardHome/DashboardHome";
 import Notifications from "@screens/notifications/Notifications";
 import ProfileScreen from "@screens/profileScreen/ProfileScreen";
+import Wallet from "@screens/wallet/Wallet";
 
 const bottomTabNavigatorConfig: Array<IBottomTabScreenConfig> = [
   {
@@ -23,7 +24,7 @@ const bottomTabNavigatorConfig: Array<IBottomTabScreenConfig> = [
   },
   {
     tabName: screenNames.WALLET,
-    component: Communities,
+    component: Wallet,
     label: 'Wallet',
     outlineIconName: 'wallet-outline',
     solidIconName: 'wallet'
