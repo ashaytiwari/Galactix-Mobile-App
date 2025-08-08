@@ -24,6 +24,7 @@ import { colors } from '@styles/colors';
 import CommunityTile from './communityTile/CommunityTile';
 
 import styles from './Communities.styles';
+import { getFilterInformationLabel } from './utilities';
 
 const PAGINATION_LIMIT = 5;
 
@@ -180,6 +181,7 @@ function Communities() {
             ))
           }
         </View>
+        <Text style={styles.filterInformationMessage}>{getFilterInformationLabel(rootState.tab)}</Text>
       </View>
     );
   }

@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
   },
   spinnerWrapper: {
     marginVertical: 150
+  },
+  filterInformationMessage: {
+    fontFamily: fontFamilies.robotoBold,
+    color: colors.white,
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 5
   }
 });
 
