@@ -87,7 +87,7 @@ function BottomTabNavigator() {
         marginBottom: 4,
         fontWeight: "500",
         fontSize: 10.5,
-      },
+      } as const,
       tabBarIconStyle: {
         marginTop: 4,
         marginBottom: 3,
