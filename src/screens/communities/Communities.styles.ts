@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@styles/colors";
+import { fontFamilies } from "@styles/fonts";
 
 const styles = StyleSheet.create({
   communitiesMain: {
@@ -40,9 +41,23 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   communitiesListContainer: {
-    // backgroundColor: 'red',
-    // paddingHorizontal: 14,
     rowGap: 10
+  },
+  noDataSection: {
+    marginVertical: 50,
+    marginHorizontal: 'auto'
+  },
+  noDataMessage: {
+    fontSize: 14,
+    fontFamily: fontFamilies.robotoMedium,
+    color: colors.white,
+    backgroundColor: colors.blackGlassy,
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    borderRadius: 20
+  },
+  spinnerWrapper: {
+    marginVertical: 150
   }
 });
 

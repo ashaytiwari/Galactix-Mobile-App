@@ -1,8 +1,11 @@
 import { StyleSheet } from "react-native";
 
+import { colors } from "@styles/colors";
+
 const styles = StyleSheet.create({
   imageBackgroundContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.primaryBackground
   },
   blurView: {
     position: "absolute",

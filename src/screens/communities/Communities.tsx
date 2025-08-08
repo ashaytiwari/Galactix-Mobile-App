@@ -15,6 +15,7 @@ import communityTabs from '@constants/communitiesTabs';
 import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
 import AppHeader from '@components/appHeader/AppHeader';
 import AppSearchBar from '@components/appSearchBar/AppSearchBar';
+import Spinner from '@components/spinner/Spinner';
 
 import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
@@ -121,7 +122,7 @@ function Communities() {
   function renderListFooterComponent() {
 
     if (rootState.loading === false) {
-      return <View style={{ marginVertical: 60 }}></View>;
+      return <View style={{ marginVertical: 80 }}></View>;
     }
 
     const activityIndicatorAttributes = {
@@ -183,17 +184,42 @@ function Communities() {
     );
   }
 
-  const communitiesListAttributes = {
-    data: rootState.communities,
-    renderItem({ item, index }: any) {
-      return renderCommunityItem(item, index);
-    },
-    keyExtractor: (item: ICommunityModel) => item._id,
-    onEndReached: handleEndReached,
-    onEndReachedThreshold: 0.5,
-    ListFooterComponent: renderListFooterComponent,
-    contentContainerStyle: styles.communitiesListContainer
-  };
+  function renderEmptyListComponent() {
+
+    return (
+      <View style={styles.noDataSection}>
+        <Text style={styles.noDataMessage}>No communities available!</Text>
+      </View>
+    );
+
+  }
+
+  function renderCommunitiesList() {
+
+    if (rootState.loading === true && rootState.communities?.length === 0) {
+      return (
+        <View style={styles.spinnerWrapper}>
+          <Spinner />
+        </View>
+      );
+    }
+
+    const communitiesListAttributes = {
+      data: rootState.communities,
+      renderItem({ item, index }: any) {
+        return renderCommunityItem(item, index);
+      },
+      keyExtractor: (item: ICommunityModel) => item._id,
+      onEndReached: handleEndReached,
+      onEndReachedThreshold: 0.5,
+      ListFooterComponent: renderListFooterComponent,
+      ListEmptyComponent: renderEmptyListComponent,
+      contentContainerStyle: styles.communitiesListContainer,
+    };
+
+    return <FlatList {...communitiesListAttributes} />;
+
+  }
 
   return (
     <BackgroundWallpaperWrapper>
@@ -202,7 +228,7 @@ function Communities() {
 
       <View style={styles.communitiesMain}>
         {renderFilters()}
-        <FlatList {...communitiesListAttributes} />
+        {renderCommunitiesList()}
       </View>
 
     </BackgroundWallpaperWrapper>
