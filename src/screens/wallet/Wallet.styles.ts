@@ -60,6 +60,16 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  countdownMessage: {
+    fontSize: 14,
+    fontFamily: fontFamilies.robotoMedium,
+    color: colors.white,
+    textAlign: 'center',
+    marginVertical: 10
+  },
+  countdown: {
+
   }
 });
 

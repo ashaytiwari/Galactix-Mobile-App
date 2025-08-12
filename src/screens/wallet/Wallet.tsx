@@ -15,6 +15,8 @@ import coinStackImage from '@assets/images/coinsStack.png';
 import celebrationAnimation from '@assets/lotties/celebrate.json';
 
 import styles from './Wallet.styles';
+import { getParsedRewardClaimingTimestamp } from '@utilities';
+import { useClaimDailyReward } from '@hooks/queriesMutations/users';
 
 function Wallet() {
 
@@ -22,6 +24,8 @@ function Wallet() {
 
   const [showCoinsInstructions, setShowCoinsInstructions] = useState(false);
   const [showCelebrationContent, setShowCelebrationContent] = useState(false);
+
+  const claimDailyRewardMutation = useClaimDailyReward();
 
   let audioTrack: Sound | null = null;
 
@@ -52,6 +56,15 @@ function Wallet() {
   }
 
   async function claimDailyReward() {
+
+    const response = await claimDailyRewardMutation.mutateAsync();
+
+    console.log(response);
+
+    if (response?.data?.statusCode !== 200) {
+      return;
+    }
+
     setShowCelebrationContent(true);
     playSound();
 
@@ -59,6 +72,7 @@ function Wallet() {
       stopSound();
       setShowCelebrationContent(false);
     }, 10000);
+
   }
 
   function renderCoinsInstructions() {
@@ -101,8 +115,11 @@ function Wallet() {
     style: styles.coinStackImage
   };
 
+  const timestamp = getParsedRewardClaimingTimestamp(userProfile.lastDailyRewardClaimedAt);
+
   const claimDailyRewardControlAttributes = {
-    title: 'Claim Daily Reward - 10 coins',
+    title: claimDailyRewardMutation.isPending === true ? 'Claiming! Please wait....' : 'Claim Daily Reward - 10 coins',
+    disabled: timestamp || claimDailyRewardMutation.isPending ? true : false,
     onPress: claimDailyReward
   };
 
@@ -112,6 +129,7 @@ function Wallet() {
       setShowCoinsInstructions(true);
     }
   };
+
 
   return (
     <BackgroundWallpaperWrapper>
@@ -127,7 +145,10 @@ function Wallet() {
         </View>
 
         <AppButton {...claimDailyRewardControlAttributes} />
-
+        {
+          timestamp &&
+          <Text style={styles.countdownMessage}>The countdown begins! Claim your next reward in <Text style={styles.countdown}>{timestamp}</Text>.</Text>
+        }
         <TouchableOpacity {...coinsInstructionsControlAttributes}>
           <Text style={styles.coinsInstructionsControlText}>How to earn/spend coins?</Text>
         </TouchableOpacity>

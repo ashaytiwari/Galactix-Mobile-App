@@ -25,6 +25,23 @@ class UsersServices {
     }
   };
 
+  claimDailyReward = () => async (dispatch: any) => {
+    try {
+      const response = await axiosClient.post('claimDailyReward');
+
+      const responseData = response?.data;
+
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
+
+      return response;
+
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error);
+    }
+  };
+
 }
 
 export const usersServices = new UsersServices();
