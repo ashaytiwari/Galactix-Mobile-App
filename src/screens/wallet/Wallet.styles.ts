@@ -51,6 +51,15 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
     color: colors.white
+  },
+  celebrationIllustrationWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
