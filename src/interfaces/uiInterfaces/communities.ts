@@ -12,7 +12,7 @@ export interface IExploreCommunitiesStateModel {
 export interface ICommunityTileModel {
   community: ICommunityModel,
   callingFrom: string,
-  onPress: (communityId: string) => void
+  onPress: (community: ICommunityModel) => void
 }
 
 export interface IHomeCommunitiesChatListStateModel {
@@ -21,4 +21,10 @@ export interface IHomeCommunitiesChatListStateModel {
   loading: boolean,
   hasMore: boolean,
   textSearch: string
+}
+
+export interface ICommunityRoomHeaderProps {
+  communityName: string,
+  communityProfile: string,
+  onBack: () => void
 }

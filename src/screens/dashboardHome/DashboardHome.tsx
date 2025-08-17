@@ -110,8 +110,8 @@ function DashboardHome() {
     const communityTileAttributes = {
       community,
       callingFrom: getCommunitiesRequestTypes.HOME_CHAT_COMMUNITIES,
-      onPress(communityId: string) {
-        navigation.navigate(screenNames.COMMUNITY_ROOM, { communityId });
+      onPress(community: ICommunityModel) {
+        navigation.navigate(screenNames.COMMUNITY_ROOM, { community });
       }
     };
 

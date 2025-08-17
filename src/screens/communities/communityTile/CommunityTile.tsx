@@ -90,7 +90,7 @@ const CommunityTile: React.FC<ICommunityTileModel> = React.memo((props) => {
   const communityTileMainAttributes = {
     style: styles.communityTileMain,
     onPress() {
-      onPress(community._id);
+      onPress(community);
     }
   };
 

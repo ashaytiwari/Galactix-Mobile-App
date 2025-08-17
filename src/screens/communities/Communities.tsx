@@ -121,8 +121,8 @@ function Communities() {
     const communityTileAttributes = {
       community,
       callingFrom: rootState.tab,
-      onPress(communityId: string) {
-        navigation.navigate(screenNames.COMMUNITY_ROOM, { communityId });
+      onPress(community: ICommunityModel) {
+        navigation.navigate(screenNames.COMMUNITY_ROOM, { community });
       }
     };
 
