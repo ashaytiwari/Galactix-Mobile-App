@@ -11,7 +11,8 @@ export interface IExploreCommunitiesStateModel {
 
 export interface ICommunityTileModel {
   community: ICommunityModel,
-  callingFrom: string
+  callingFrom: string,
+  onPress: (communityId: string) => void
 }
 
 export interface IHomeCommunitiesChatListStateModel {

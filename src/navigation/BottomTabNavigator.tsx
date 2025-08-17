@@ -80,7 +80,7 @@ function BottomTabNavigator() {
       tabBarInactiveTintColor: colors.tertiary,
       tabBarStyle: {
         backgroundColor: colors.primaryBackground,
-        height: Platform.OS === 'ios' ? 50 : 70
+        height: Platform.OS === 'ios' ? 55 : 70
       },
       tabBarLabelStyle: {
         marginTop: 2,

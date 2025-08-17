@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 import { useMMKVStorage } from 'react-native-mmkv-storage';
+import { useNavigation } from '@react-navigation/native';
 
 import { useGetCommunities } from '@hooks/queriesMutations/communities';
 
@@ -11,6 +12,7 @@ import { ICommunityModel } from '@interfaces/models/communities';
 
 import { getCommunitiesRequestTypes } from '@constants/getCommunitiesRequestTypes';
 import communityTabs from '@constants/communitiesTabs';
+import screenNames from '@constants/screenNames';
 
 import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
 import AppHeader from '@components/appHeader/AppHeader';
@@ -23,12 +25,15 @@ import { colors } from '@styles/colors';
 
 import CommunityTile from './communityTile/CommunityTile';
 
-import styles from './Communities.styles';
 import { getFilterInformationLabel } from './utilities';
+
+import styles from './Communities.styles';
 
 const PAGINATION_LIMIT = 5;
 
 function Communities() {
+
+  const navigation: any = useNavigation();
 
   const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
 
@@ -115,7 +120,10 @@ function Communities() {
 
     const communityTileAttributes = {
       community,
-      callingFrom: rootState.tab
+      callingFrom: rootState.tab,
+      onPress(communityId: string) {
+        navigation.navigate(screenNames.COMMUNITY_ROOM, { communityId });
+      }
     };
 
     return <CommunityTile {...communityTileAttributes} />;

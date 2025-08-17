@@ -15,7 +15,7 @@ import styles from './CommunityTile.styles';
 
 const CommunityTile: React.FC<ICommunityTileModel> = React.memo((props) => {
 
-  const { community, callingFrom } = props;
+  const { community, callingFrom, onPress } = props;
 
   function renderCommunityProfileImage() {
 
@@ -89,7 +89,9 @@ const CommunityTile: React.FC<ICommunityTileModel> = React.memo((props) => {
 
   const communityTileMainAttributes = {
     style: styles.communityTileMain,
-    onPress() { }
+    onPress() {
+      onPress(community._id);
+    }
   };
 
   return (

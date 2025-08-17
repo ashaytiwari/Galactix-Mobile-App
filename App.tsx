@@ -4,8 +4,8 @@ import { useMMKVStorage } from 'react-native-mmkv-storage';
 
 import { useAppDispatch, useAppSelector } from '@hooks/redux';
 
-import BottomTabNavigator from '@navigation/BottomTabNavigator';
 import AuthStackNavigator from '@navigation/AuthStackNavigator';
+import AppStackNavigator from '@navigation/AppStackNavigator';
 
 import { appPopupAction } from '@store/slices/ui/appPopup';
 
@@ -24,7 +24,7 @@ function App() {
   function renderAppNavigator() {
 
     if (userAuthDetails) {
-      return <BottomTabNavigator />;
+      return <AppStackNavigator />;
     }
 
     return <AuthStackNavigator />;

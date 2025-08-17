@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
 import { useMMKVStorage } from 'react-native-mmkv-storage';
+import { useNavigation } from '@react-navigation/native';
 
 import { useGetCommunitiesChatList } from '@hooks/queriesMutations/communities';
 
@@ -10,6 +11,7 @@ import { IPaginationMetadataModel } from '@interfaces/models/common';
 import { IHomeCommunitiesChatListStateModel } from '@interfaces/uiInterfaces/communities';
 
 import { getCommunitiesRequestTypes } from '@constants/getCommunitiesRequestTypes';
+import screenNames from '@constants/screenNames';
 
 import CommunityTile from '@screens/communities/communityTile/CommunityTile';
 import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
@@ -26,6 +28,8 @@ import styles from './DashboardHome.styles';
 const PAGINATION_LIMIT = 5;
 
 function DashboardHome() {
+
+  const navigation: any = useNavigation();
 
   const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
 
@@ -105,7 +109,10 @@ function DashboardHome() {
 
     const communityTileAttributes = {
       community,
-      callingFrom: getCommunitiesRequestTypes.HOME_CHAT_COMMUNITIES
+      callingFrom: getCommunitiesRequestTypes.HOME_CHAT_COMMUNITIES,
+      onPress(communityId: string) {
+        navigation.navigate(screenNames.COMMUNITY_ROOM, { communityId });
+      }
     };
 
     return <CommunityTile {...communityTileAttributes} />;
