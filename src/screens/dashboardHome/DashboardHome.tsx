@@ -95,7 +95,6 @@ function DashboardHome() {
     });
   }
 
-
   function handleEndReached() {
 
     if (rootState.loading || !rootState.hasMore) {
