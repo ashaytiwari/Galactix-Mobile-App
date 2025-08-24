@@ -7,9 +7,10 @@ export interface ICommunityRoomStateModel {
   hasMore: boolean
 }
 
-export interface IPostItemProps {
+export interface IPostTileProps {
   post: IPostModel,
-  isUserGuestToCommunity: boolean
+  isUserGuestToCommunity: boolean,
+  communityCreatedBy: string
 }
 
 export interface ICommunityPostEditorProps {

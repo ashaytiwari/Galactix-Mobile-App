@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -13,7 +13,10 @@ import { IPostModel } from '@interfaces/models/posts';
 import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
 import Spinner from '@components/spinner/Spinner';
 
+import { colors } from '@styles/colors';
+
 import CommunityRoomHeader from './communityRoomHeader/CommunityRoomHeader';
+import PostTile from './postTile/PostTile';
 
 import styles from './CommunityRoom.styles';
 
@@ -91,6 +94,69 @@ function CommunityRoom() {
 
     fetchCommunityPosts(rootState.page + 1);
   }
+
+  function renderEmptyListComponent() {
+
+    return (
+      <View style={styles.noDataSection}>
+        <Text style={styles.noDataMessage}>No communities found in this galaxy! Create one or join an orbiting community to fill the void!</Text>
+      </View>
+    );
+
+  }
+
+  function renderListFooterComponent() {
+
+    if (rootState.loading === false) {
+      return <View style={{ marginVertical: 80 }}></View>;
+    }
+
+    const activityIndicatorAttributes = {
+      color: colors.white,
+      style: { marginTop: 10, marginBottom: 20 }
+    };
+
+    return <ActivityIndicator size='large' {...activityIndicatorAttributes} />;
+  }
+
+  function renderPostItem(post: IPostModel, index: number) {
+
+    const postTileAttributes = {
+      post,
+      isUserGuestToCommunity: false,
+      communityCreatedBy: community.createdBy
+    };
+
+    return <PostTile {...postTileAttributes} />;
+  }
+
+  function renderContent() {
+
+    if (rootState.loading === true && rootState.posts?.length === 0) {
+      return (
+        <View style={styles.spinnerWrapper}>
+          <Spinner />
+        </View>
+      );
+    }
+
+    const communityPostsListAttributes = {
+      data: rootState.posts,
+      renderItem({ item, index }: any) {
+        return renderPostItem(item, index);
+      },
+      keyExtractor: (item: IPostModel) => item._id,
+      onEndReached: handleEndReached,
+      onEndReachedThreshold: 0.5,
+      ListFooterComponent: renderListFooterComponent,
+      ListEmptyComponent: renderEmptyListComponent,
+      contentContainerStyle: styles.postsListContainer,
+    };
+
+    return <FlatList {...communityPostsListAttributes} />;
+
+  }
+
   const communityRoomHeaderAttributes = {
     communityName: community?.communityName,
     communityProfile: community?.profileImage?.url || '',
@@ -106,7 +172,9 @@ function CommunityRoom() {
   return (
     <BackgroundWallpaperWrapper>
       <CommunityRoomHeader {...communityRoomHeaderAttributes} />
-      <Text>Community Room</Text>
+      <View style={styles.communityRoomMain}>
+        {renderContent()}
+      </View>
     </BackgroundWallpaperWrapper>
   );
 }

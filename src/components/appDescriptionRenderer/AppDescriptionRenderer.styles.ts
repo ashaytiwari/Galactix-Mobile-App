@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilies.robotoMedium,
     color: colors.secondary,
     marginTop: 5,
-    marginBottom: 10
   }
 });
 
