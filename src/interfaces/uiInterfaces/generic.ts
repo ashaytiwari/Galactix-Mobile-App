@@ -76,3 +76,7 @@ export interface IAppScaledImageProps {
   height: any,
   imageStyle?: any
 }
+
+export interface IAppDescriptionRendererProps {
+  description: string
+}
