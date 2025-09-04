@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 
 import { useMMKVStorage } from 'react-native-mmkv-storage';
 
@@ -13,6 +14,8 @@ import AppPopup from '@components/appPopup/AppPopup';
 import AppProvider from '@components/AppProvider';
 
 import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
+
+import { colors } from '@styles/colors';
 
 function App() {
 
@@ -42,10 +45,12 @@ function App() {
   };
 
   return (
-    <AppProvider>
-      {renderAppNavigator()}
-      <AppPopup {...appPopupAttributes} />
-    </AppProvider>
+    <View style={{ backgroundColor: colors.primaryBackground, flex: 1 }}>
+      <AppProvider>
+        {renderAppNavigator()}
+        <AppPopup {...appPopupAttributes} />
+      </AppProvider>
+    </View>
   );
 
 }

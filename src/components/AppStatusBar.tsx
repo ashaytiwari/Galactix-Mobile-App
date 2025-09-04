@@ -1,5 +1,7 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
+
+import { Edges, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { useAppSelector } from '@hooks/redux';
 
@@ -11,14 +13,25 @@ const AppStatusBar: React.FC<IChildrenProps> = (props) => {
 
   const { statusBarBackgroundColor, statusBarStyle, backgroundColor } = useAppSelector((state) => state.ui.statusbar);
 
+  const topSafeAreaViewAttributes = {
+    edges: ['top'] as Edges,
+    style: { flex: 0, backgroundColor: statusBarBackgroundColor },
+  };
+
+  const bottomSafeAreaViewAttributes = {
+    edges: ['bottom'] as Edges,
+    style: { flex: 1 },
+  };
+
   return (
-    <>
-      <StatusBar backgroundColor={statusBarBackgroundColor} barStyle={statusBarStyle} />
-      <SafeAreaView style={{ flex: 0, backgroundColor: statusBarBackgroundColor }} />
-      <SafeAreaView style={{ flex: 1, backgroundColor: backgroundColor }}>
+    <SafeAreaProvider>
+      <SafeAreaView {...topSafeAreaViewAttributes}>
+        <StatusBar barStyle={statusBarStyle} backgroundColor={statusBarBackgroundColor} />
+      </SafeAreaView>
+      <SafeAreaView {...bottomSafeAreaViewAttributes}>
         {children}
       </SafeAreaView>
-    </>
+    </SafeAreaProvider>
   );
 
 };
