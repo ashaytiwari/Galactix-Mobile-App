@@ -9,7 +9,7 @@ import styles from './FormControls.styles';
 
 const FormInputTextControl: React.FC<IFormInputTextControl> = (props) => {
 
-  const { label, error, keyboardType = 'default', placeholder, value, onChangeText, onBlur } = props;
+  const { label, error, keyboardType = 'default', placeholder, value, inputStyle, labelStyle, multiline, onChangeText, onBlur } = props;
 
   function renderLabel() {
 
@@ -17,11 +17,13 @@ const FormInputTextControl: React.FC<IFormInputTextControl> = (props) => {
       return;
     }
 
-    return <Text style={styles.formLabel}>{label}</Text>;
+    const labelTextStyle = labelStyle ? [styles.formLabel, labelStyle] : styles.formLabel;
+
+    return <Text style={labelTextStyle}>{label}</Text>;
 
   }
 
-  function renderErrorMessage(){
+  function renderErrorMessage() {
 
     if (!error) {
       return;
@@ -31,21 +33,34 @@ const FormInputTextControl: React.FC<IFormInputTextControl> = (props) => {
 
   }
 
-  const inputControlStyle = error ? [styles.formTextInput, styles.errorInput] : styles.formTextInput;
+  let inputControlStyle: any = [styles.formTextInput];
+
+  if (error) {
+    inputControlStyle.push(styles.errorInput);
+  }
+
+  if (inputStyle) {
+    inputControlStyle.push(inputStyle);
+  }
 
   const textInputAttributes = {
+    editable: true,
     placeholder,
     placeholderTextColor: colors.tertiary,
     value,
     onChangeText,
     onBlur,
-    style: inputControlStyle
+    style: inputControlStyle,
+    keyboardType: keyboardType || 'default' as any,
+    multiline: multiline || false,
+    numberOfLines: multiline === true ? 5 : 1,
+    textAlignVertical: "top" as const
   };
 
   return (
     <View style={styles.formGroup}>
       {renderLabel()}
-      <TextInput {...textInputAttributes} keyboardType={keyboardType} />
+      <TextInput {...textInputAttributes} />
       {renderErrorMessage()}
     </View>
   );

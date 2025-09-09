@@ -12,7 +12,7 @@ const AppButton: React.FC<IButtonProps> = (props) => {
   let appButtonStyle = rounded === true ? [styles.appButtonMain, { borderRadius: 20 }] : styles.appButtonMain;
 
   if (containerStyle) {
-    appButtonStyle = containerStyle;
+    appButtonStyle = [appButtonStyle, containerStyle];
   }
 
   let buttonTextStyle = textStyle ? textStyle : styles.buttonText;

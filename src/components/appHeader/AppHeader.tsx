@@ -25,7 +25,10 @@ const AppHeader: React.FC<IAppHeaderProps> = (props) => {
   const moreActions = [
     {
       label: 'New Community',
-      action: () => { }
+      action: () => {
+        navigation.navigate(screenNames.COMMUNITY_EDITOR);
+        setDisplayMoreInfoPopup(false);
+      }
     },
     {
       label: 'Profile',

@@ -4,7 +4,7 @@ import { colors } from "@styles/colors";
 
 const styles = StyleSheet.create({
   formGroup: {
-    rowGap: 10
+    rowGap: 10,
   },
   formLabel: {
     color: colors.eclipseGray,

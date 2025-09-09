@@ -9,4 +9,7 @@ export interface IFormInputTextControl {
   placeholder: string,
   style?: any,
   value: any,
+  inputStyle?: any,
+  labelStyle?: any,
+  multiline?: boolean
 }

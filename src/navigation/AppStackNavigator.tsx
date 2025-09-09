@@ -5,6 +5,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import screenNames from '@constants/screenNames';
 
 import CommunityRoom from '@screens/communityRoom/CommunityRoom';
+import CommunityEditor from '@screens/communityEditor/CommunityEditor';
 
 import BottomTabNavigator from './BottomTabNavigator';
 
@@ -23,6 +24,7 @@ function AppStackNavigator() {
     <Stack.Navigator {...stackNavigatorAttributes} initialRouteName={screenNames.BOTTOM_TABS}>
       <Stack.Screen name={screenNames.BOTTOM_TABS} component={BottomTabNavigator} />
       <Stack.Screen name={screenNames.COMMUNITY_ROOM} component={CommunityRoom} />
+      <Stack.Screen name={screenNames.COMMUNITY_EDITOR} component={CommunityEditor} />
     </Stack.Navigator>
   );
 
