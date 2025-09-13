@@ -99,7 +99,7 @@ function CommunityRoom() {
 
     return (
       <View style={styles.noDataSection}>
-        <Text style={styles.noDataMessage}>No communities found in this galaxy! Create one or join an orbiting community to fill the void!</Text>
+        <Text style={styles.noDataMessage}>Looks like this community has no posts yet. Be the first to share something!</Text>
       </View>
     );
 

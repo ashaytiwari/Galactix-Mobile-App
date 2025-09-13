@@ -1,5 +1,7 @@
 import { axiosClient } from "@axiosClient/index";
 
+import { ICommunityEditorDataModel } from "@interfaces/models/communities";
+
 import { handleRESTServerInteractionError } from "@utilities/serviceHandlers";
 
 // import {
@@ -77,22 +79,22 @@ class CommunitiesServices {
   //   }
   // }
 
-  // updateCommunityDetails = (params: ICommunityEditorDataModel) => async (dispatch: any) => {
-  //   try {
-  //     const response = await axiosClient.post('api/updateCommunity', params);
+  updateCommunityDetails = (params: ICommunityEditorDataModel) => async (dispatch: any) => {
+    try {
+      const response = await axiosClient.post('updateCommunity', params);
 
-  //     const responseData = response?.data;
+      const responseData = response?.data;
 
-  //     if (responseData?.statusCode !== 200) {
-  //       throw responseData;
-  //     }
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
 
-  //     return response;
+      return response;
 
-  //   } catch (error) {
-  //     handleRESTServerInteractionError(dispatch, error);
-  //   }
-  // }
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error);
+    }
+  }
 
   // getCommunityMembers = (communityId: string) => async (dispatch: any) => {
   //   try {

@@ -2,7 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useAppDispatch } from "@hooks/redux";
 
+import { appPopupAction } from "@store/slices/ui/appPopup";
+
 import queryKeys from "@constants/queryKeys";
+import { ICommunityEditorDataModel } from "@interfaces/models/communities";
 
 import { communityServices } from "@services/communities";
 
@@ -70,27 +73,31 @@ export function useGetCommunitiesChatList() {
 
 // }
 
-// export function useUpdateCommunityDetails() {
+export function useUpdateCommunityDetails() {
 
-//   const dispatch = useAppDispatch();
-//   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: (params: ICommunityEditorDataModel) => dispatch(communityServices.updateCommunityDetails(params)),
-//     onSuccess: (response: any) => {
+  return useMutation({
+    mutationFn: (params: ICommunityEditorDataModel) => dispatch(communityServices.updateCommunityDetails(params)),
+    onSuccess: (response: any) => {
 
-//       const responseData = response?.data;
+      const responseData = response?.data;
 
-//       if (responseData?.statusCode === 200) {
-//         showCustomToast(toastTitles.SUCCESS, responseData.message);
-//       }
+      if (responseData?.statusCode === 200) {
+        dispatch(appPopupAction.updateAppPopupState({
+          title: 'Success',
+          message: responseData.message,
+          open: true
+        }));
+      }
 
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
 
-//     }
-//   });
+    }
+  });
 
-// }
+}
 
 // export function useGetCommunityMembers(communityId: string) {
 

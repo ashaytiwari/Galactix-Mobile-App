@@ -80,3 +80,17 @@ export interface IAppScaledImageProps {
 export interface IAppDescriptionRendererProps {
   description: string
 }
+
+export type ImageFile = {
+  uri: string,
+  fileName: string,
+  fileType: string
+} | null
+export interface IAppImagePickerProps {
+  buttonTitle: string,
+  onImagePicked: (imageFile: ImageFile | null) => void
+}
+
+export interface ISpinnerProps {
+  transparentBackground?: boolean
+}

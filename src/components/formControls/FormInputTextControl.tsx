@@ -35,12 +35,12 @@ const FormInputTextControl: React.FC<IFormInputTextControl> = (props) => {
 
   let inputControlStyle: any = [styles.formTextInput];
 
-  if (error) {
-    inputControlStyle.push(styles.errorInput);
-  }
-
   if (inputStyle) {
     inputControlStyle.push(inputStyle);
+  }
+
+  if (error) {
+    inputControlStyle.push(styles.errorInput);
   }
 
   const textInputAttributes = {

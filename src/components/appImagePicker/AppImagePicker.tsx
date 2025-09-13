@@ -8,7 +8,7 @@ import { useAppDispatch } from '@hooks/redux';
 
 import { appPopupAction } from '@store/slices/ui/appPopup';
 
-import { IAppImagePickerProps } from '@interfaces/uiInterfaces/generic';
+import { IAppImagePickerProps, ImageFile } from '@interfaces/uiInterfaces/generic';
 
 import AppScaledImage from '@components/AppScaledImage';
 
@@ -16,15 +16,9 @@ import { colors } from '@styles/colors';
 
 import styles from './AppImagePicker.styles';
 
-type ImageFile = {
-  uri: string,
-  fileName: string,
-  fileType: string
-} | null
-
 const AppImagePicker: React.FC<IAppImagePickerProps> = (props) => {
 
-  const { buttonTitle } = props;
+  const { buttonTitle, onImagePicked } = props;
 
   const dispatch = useAppDispatch();
 
@@ -35,6 +29,7 @@ const AppImagePicker: React.FC<IAppImagePickerProps> = (props) => {
     launchImageLibrary(
       {
         mediaType: 'photo',
+        quality: 0.5
       },
       async (response: any) => {
         if (response.didCancel) {
@@ -45,8 +40,11 @@ const AppImagePicker: React.FC<IAppImagePickerProps> = (props) => {
         } else {
 
           const { uri, fileName, type } = response?.assets[0];
-          setImageFile({ uri, fileName, fileType: type });
-          console.log(imageFile);
+          const _imageFile = { uri, fileName, fileType: type };
+
+          setImageFile(_imageFile);
+          onImagePicked(_imageFile);
+
         }
       }
     );
@@ -86,6 +84,7 @@ const AppImagePicker: React.FC<IAppImagePickerProps> = (props) => {
       style: styles.removeImageControl,
       onPress() {
         setImageFile(null);
+        onImagePicked(null);
       }
     };
 

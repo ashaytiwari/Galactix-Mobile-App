@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     paddingHorizontal: 10,
     paddingVertical: 12,
-    marginBottom: 20,
     color: colors.white,
     fontSize: 15,
     letterSpacing: 0.2,
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
   },
   formGroup: {
     rowGap: 10,
+    marginBottom: 25,
   },
   controlRow: {
     flexDirection: 'row',

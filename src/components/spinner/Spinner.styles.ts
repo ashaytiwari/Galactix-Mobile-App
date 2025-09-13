@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  transparentSpinnerContainer: {
+    backgroundColor: colors.blackGlassy,
+  },
   spinnerAnimation: {
     width: '80%',
     height: 250
