@@ -94,3 +94,9 @@ export interface IAppImagePickerProps {
 export interface ISpinnerProps {
   transparentBackground?: boolean
 }
+
+export interface IAppBottomSheetProps {
+  open: any,
+  onClose: () => void,
+  children: React.ReactNode
+}

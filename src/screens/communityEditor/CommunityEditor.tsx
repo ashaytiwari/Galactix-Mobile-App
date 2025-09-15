@@ -16,12 +16,14 @@ import AppButton from "@components/appButton/AppButton";
 import FormInputTextControl from "@components/formControls/FormInputTextControl";
 import AppImagePicker from "@components/appImagePicker/AppImagePicker";
 import Spinner from "@components/spinner/Spinner";
+import AppBottomSheet from "@components/appBottomSheet/AppBottomSheet";
 
 import { colors } from "@styles/colors";
 
 import { setDefaultCommunityFormValues, validateCommunityForm } from "./utilities";
 
 import styles from "./CommunityEditor.styles";
+import { useSharedValue } from "react-native-reanimated";
 
 function CommunityEditor() {
 
@@ -39,6 +41,12 @@ function CommunityEditor() {
 
   const fileUploadMutation = useFileUpload();
   const updateCommunityDetailsMutation = useUpdateCommunityDetails();
+
+  const isOpen = useSharedValue(false);
+
+  const toggleSheet = () => {
+    isOpen.value = !isOpen.value;
+  };
 
   async function handleSaveControlClick() {
 
@@ -203,9 +211,24 @@ function CommunityEditor() {
         {renderCommunityPrivateSwitchControl()}
         {renderAddImageControl()}
         <AppButton {...saveControlAttributes} />
+        <AppButton title="Open" onPress={toggleSheet} />
       </View>
     );
 
+  }
+
+  function renderBottomSheet() {
+
+    const appBottomSheetAttributes = {
+      open: isOpen,
+      onClose: toggleSheet,
+    };
+
+    return (
+      <AppBottomSheet {...appBottomSheetAttributes}>
+        <Text>Hare Krishna</Text>
+      </AppBottomSheet>
+    );
   }
 
   return (
@@ -213,6 +236,7 @@ function CommunityEditor() {
       <View style={styles.communityEditorMain}>
         {renderHeader()}
         {renderFormContent()}
+        {renderBottomSheet()}
       </View>
     </BackgroundWallpaperWrapper>
   );
