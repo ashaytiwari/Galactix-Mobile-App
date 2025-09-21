@@ -12,6 +12,7 @@ import { appPopupAction } from '@store/slices/ui/appPopup';
 
 import AppPopup from '@components/appPopup/AppPopup';
 import AppProvider from '@components/AppProvider';
+import BalanceConfirmationPopup from '@components/balanceConfirmationPopup/BalanceConfirmationPopup';
 
 import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
@@ -49,6 +50,7 @@ function App() {
       <AppProvider>
         {renderAppNavigator()}
         <AppPopup {...appPopupAttributes} />
+        <BalanceConfirmationPopup />
       </AppProvider>
     </View>
   );

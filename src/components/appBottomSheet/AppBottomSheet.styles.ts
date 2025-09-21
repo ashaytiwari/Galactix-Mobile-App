@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   sheet: {
     padding: 16,
-    height: 150,
+    height: 350,
     width: '100%',
     position: 'absolute',
     bottom: 0,

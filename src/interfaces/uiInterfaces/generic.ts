@@ -98,5 +98,10 @@ export interface ISpinnerProps {
 export interface IAppBottomSheetProps {
   open: any,
   onClose: () => void,
-  children: React.ReactNode
+  children: React.ReactNode,
+  containerStyle?: any
+}
+
+export interface IBalanceConfirmationPopupProps {
+
 }

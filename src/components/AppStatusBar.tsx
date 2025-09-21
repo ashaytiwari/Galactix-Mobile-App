@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 
 import { Edges, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,7 +20,7 @@ const AppStatusBar: React.FC<IChildrenProps> = (props) => {
 
   const bottomSafeAreaViewAttributes = {
     edges: ['bottom'] as Edges,
-    style: { flex: 1 },
+    style: { flex: 1, paddingTop: Platform.OS === 'android' ? 25 : 60 },
   };
 
   return (

@@ -17,11 +17,11 @@ const ANIMATION_DURATION = 500;
 
 const AppBottomSheet: React.FC<IAppBottomSheetProps> = (props) => {
 
-  const { children, open, onClose } = props;
+  const { children, open, onClose, containerStyle } = props;
 
   const height = useSharedValue(0);
   const progress = useDerivedValue(() =>
-    withTiming(open.value ? 0 : 1, { duration: ANIMATION_DURATION })
+    withTiming(open ? 0 : 1, { duration: ANIMATION_DURATION })
   );
 
   const sheetStyle = useAnimatedStyle(() => ({
@@ -30,10 +30,16 @@ const AppBottomSheet: React.FC<IAppBottomSheetProps> = (props) => {
 
   const backdropStyle = useAnimatedStyle(() => ({
     opacity: 1 - progress.value,
-    zIndex: open.value
+    zIndex: open
       ? 1
       : withDelay(ANIMATION_DURATION, withTiming(-1, { duration: 0 })),
   }));
+
+  const appBottomSheetStyle = [styles.sheet];
+
+  if (containerStyle) {
+    appBottomSheetStyle.push(containerStyle);;
+  }
 
   return (
     <>
@@ -44,7 +50,7 @@ const AppBottomSheet: React.FC<IAppBottomSheetProps> = (props) => {
         onLayout={(e) => {
           height.value = e.nativeEvent.layout.height;
         }}
-        style={[styles.sheet, sheetStyle]}>
+        style={[...appBottomSheetStyle, sheetStyle]}>
         {children}
       </Animated.View>
     </>

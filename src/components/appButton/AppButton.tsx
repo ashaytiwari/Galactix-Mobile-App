@@ -15,7 +15,7 @@ const AppButton: React.FC<IButtonProps> = (props) => {
     appButtonStyle = [appButtonStyle, containerStyle];
   }
 
-  let buttonTextStyle = textStyle ? textStyle : styles.buttonText;
+  let buttonTextStyle = textStyle ? [styles.buttonText, textStyle] : styles.buttonText;
 
   const pressableAttributes = {
     disabled: disabled || false,

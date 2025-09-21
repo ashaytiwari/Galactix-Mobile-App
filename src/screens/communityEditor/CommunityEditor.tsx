@@ -5,8 +5,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 
+import { useAppDispatch } from "@hooks/redux";
 import { useFileUpload } from "@hooks/queriesMutations/common";
 import { useUpdateCommunityDetails } from "@hooks/queriesMutations/communities";
+
+import { balanceConfirmationPopupAction } from "@store/slices/ui/balanceConfirmationPopup";
 
 import { ImageFile } from "@interfaces/uiInterfaces/generic";
 import screenNames from "@constants/screenNames";
@@ -16,18 +19,17 @@ import AppButton from "@components/appButton/AppButton";
 import FormInputTextControl from "@components/formControls/FormInputTextControl";
 import AppImagePicker from "@components/appImagePicker/AppImagePicker";
 import Spinner from "@components/spinner/Spinner";
-import AppBottomSheet from "@components/appBottomSheet/AppBottomSheet";
 
 import { colors } from "@styles/colors";
 
 import { setDefaultCommunityFormValues, validateCommunityForm } from "./utilities";
 
 import styles from "./CommunityEditor.styles";
-import { useSharedValue } from "react-native-reanimated";
 
 function CommunityEditor() {
 
   const navigation: any = useNavigation();
+  const dispatch = useAppDispatch();
 
   const [imageFile, setImageFile] = useState<any>(null);
 
@@ -42,13 +44,7 @@ function CommunityEditor() {
   const fileUploadMutation = useFileUpload();
   const updateCommunityDetailsMutation = useUpdateCommunityDetails();
 
-  const isOpen = useSharedValue(false);
-
-  const toggleSheet = () => {
-    isOpen.value = !isOpen.value;
-  };
-
-  async function handleSaveControlClick() {
+  async function updateCommunityDetails() {
 
     let name: any = '', uniqueName: any = '';
 
@@ -87,6 +83,15 @@ function CommunityEditor() {
       navigation.navigate(screenNames.BOTTOM_TABS, { screen: screenNames.DASHBOARD_HOME });
     }
 
+  }
+
+  async function handleSaveControlClick() {
+    dispatch(balanceConfirmationPopupAction.updateBalanceConfirmationPopup({
+      open: true,
+      title: 'test',
+      message: 'test message',
+      actionAmount: 20,
+    }));
   }
 
   function handleBackButton() {
@@ -211,24 +216,9 @@ function CommunityEditor() {
         {renderCommunityPrivateSwitchControl()}
         {renderAddImageControl()}
         <AppButton {...saveControlAttributes} />
-        <AppButton title="Open" onPress={toggleSheet} />
       </View>
     );
 
-  }
-
-  function renderBottomSheet() {
-
-    const appBottomSheetAttributes = {
-      open: isOpen,
-      onClose: toggleSheet,
-    };
-
-    return (
-      <AppBottomSheet {...appBottomSheetAttributes}>
-        <Text>Hare Krishna</Text>
-      </AppBottomSheet>
-    );
   }
 
   return (
@@ -236,7 +226,6 @@ function CommunityEditor() {
       <View style={styles.communityEditorMain}>
         {renderHeader()}
         {renderFormContent()}
-        {renderBottomSheet()}
       </View>
     </BackgroundWallpaperWrapper>
   );
