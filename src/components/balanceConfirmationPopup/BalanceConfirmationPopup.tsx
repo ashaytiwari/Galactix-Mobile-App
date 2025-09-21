@@ -14,7 +14,7 @@ const BalanceConfirmationPopup = () => {
 
   const dispatch = useAppDispatch();
 
-  const { open, title, actionAmount } = useAppSelector((state) => state.ui.balanceConfirmationPopup);
+  const { open, actionAmount } = useAppSelector((state) => state.ui.balanceConfirmationPopup);
   const userProfile = useAppSelector((state) => state.user.userProfile);
 
   const sufficientBalance = userProfile.coins > actionAmount;
@@ -33,7 +33,7 @@ const BalanceConfirmationPopup = () => {
     const confirmControlAttributes = {
       title: sufficientBalance === true ? 'Proceed' : 'Earn Coins',
       onPress() {
-        // dispatch(balanceConfirmationPopupAction.onConfirm());
+        dispatch(balanceConfirmationPopupAction.onConfirm());
       }
     };
 

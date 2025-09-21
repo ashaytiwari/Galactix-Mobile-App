@@ -81,19 +81,7 @@ export function useUpdateCommunityDetails() {
   return useMutation({
     mutationFn: (params: ICommunityEditorDataModel) => dispatch(communityServices.updateCommunityDetails(params)),
     onSuccess: (response: any) => {
-
-      const responseData = response?.data;
-
-      if (responseData?.statusCode === 200) {
-        dispatch(appPopupAction.updateAppPopupState({
-          title: 'Success',
-          message: responseData.message,
-          open: true
-        }));
-      }
-
       queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
-
     }
   });
 

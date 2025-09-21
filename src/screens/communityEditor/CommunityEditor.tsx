@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 
-import { useAppDispatch } from "@hooks/redux";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import { useFileUpload } from "@hooks/queriesMutations/common";
 import { useUpdateCommunityDetails } from "@hooks/queriesMutations/communities";
 
@@ -25,11 +25,14 @@ import { colors } from "@styles/colors";
 import { setDefaultCommunityFormValues, validateCommunityForm } from "./utilities";
 
 import styles from "./CommunityEditor.styles";
+import coinsRateList from "@constants/coinsRateList";
 
 function CommunityEditor() {
 
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
+
+  const userProfile = useAppSelector((state) => state.user.userProfile);
 
   const [imageFile, setImageFile] = useState<any>(null);
 
@@ -85,12 +88,15 @@ function CommunityEditor() {
 
   }
 
+  async function insufficientCoinsHandler() {
+    navigation.navigate(screenNames.BOTTOM_TABS, { screen: screenNames.WALLET });
+  }
+
   async function handleSaveControlClick() {
     dispatch(balanceConfirmationPopupAction.updateBalanceConfirmationPopup({
       open: true,
-      title: 'test',
-      message: 'test message',
       actionAmount: 20,
+      onConfirmed: userProfile.coins > coinsRateList.CREATE_COMMUNITY ? updateCommunityDetails : insufficientCoinsHandler
     }));
   }
 
