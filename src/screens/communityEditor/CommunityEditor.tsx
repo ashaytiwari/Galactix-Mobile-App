@@ -13,6 +13,7 @@ import { balanceConfirmationPopupAction } from "@store/slices/ui/balanceConfirma
 
 import { ImageFile } from "@interfaces/uiInterfaces/generic";
 import screenNames from "@constants/screenNames";
+import coinsRateList from "@constants/coinsRateList";
 
 import BackgroundWallpaperWrapper from "@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper";
 import AppButton from "@components/appButton/AppButton";
@@ -25,7 +26,6 @@ import { colors } from "@styles/colors";
 import { setDefaultCommunityFormValues, validateCommunityForm } from "./utilities";
 
 import styles from "./CommunityEditor.styles";
-import coinsRateList from "@constants/coinsRateList";
 
 function CommunityEditor() {
 

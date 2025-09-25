@@ -64,7 +64,8 @@ const AppDescriptionRenderer: React.FC<IAppDescriptionRendererProps> = React.mem
     tagsStyles: {
       p: styles.contentP,
       strong: styles.contentStrong,
-      li: styles.contentP
+      li: styles.contentP,
+      h3: styles.contentP
     }
   };
 

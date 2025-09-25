@@ -82,6 +82,7 @@ export function useUpdateCommunityDetails() {
     mutationFn: (params: ICommunityEditorDataModel) => dispatch(communityServices.updateCommunityDetails(params)),
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.userProfile] });
     }
   });
 
