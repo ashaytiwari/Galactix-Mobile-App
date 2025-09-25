@@ -1,12 +1,16 @@
 import React from 'react';
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Pressable, Text, TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 import { ICommunityRoomHeaderProps } from '@interfaces/uiInterfaces/communities';
+import screenNames from '@constants/screenNames';
 
 import AppAvatar from '@components/appAvatar/AppAvatar';
 import AppScaledImage from '@components/AppScaledImage';
+
+import { checkIsUserGuestToCommunity } from '@utilities/controlVisibility';
 
 import { colors } from '@styles/colors';
 
@@ -14,17 +18,30 @@ import styles from './CommunityRoomHeader.styles';
 
 const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
 
-  const { communityName, communityProfile, onBack } = props;
+  const { community, onBack } = props;
+
+  const navigation: any = useNavigation();
+
+  async function navigateToCommunityDetails() {
+
+    const isGuest = await checkIsUserGuestToCommunity(community?.members, community?.createdBy);
+
+    if (isGuest === true) {
+      return;
+    }
+
+    navigation.navigate(screenNames.COMMUNITY_DETAILS);
+  }
 
   function renderCommunityProfileImage() {
 
-    if (communityProfile) {
+    if (community.profileImage?.url) {
 
       const widthHeight = Dimensions.get('window').width * 0.08;
       const appScaledImageAttributes = {
         width: widthHeight,
         height: widthHeight,
-        url: communityProfile,
+        url: community.profileImage.url,
         imageStyle: styles.communityProfileImage
       };
 
@@ -33,7 +50,7 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
     }
 
     const appAvatarAttributes = {
-      text: communityName
+      text: community.communityName
     };
 
     return <AppAvatar {...appAvatarAttributes} />
@@ -47,6 +64,11 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
       color: colors.white
     };
 
+    const communityDetailsContentAttributes = {
+      style: styles.headerLeftSection,
+      onPress: navigateToCommunityDetails
+    };
+
     return (
       <View style={styles.headerLeftSection}>
 
@@ -54,31 +76,45 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
           <Icon {...backIconAttributes} />
         </TouchableOpacity>
 
-        {renderCommunityProfileImage()}
-
-        <Text style={styles.headerTitle}>{communityName}</Text>
+        <Pressable {...communityDetailsContentAttributes}>
+          {renderCommunityProfileImage()}
+          <Text style={styles.headerTitle}>{community.communityName}</Text>
+        </Pressable>
 
       </View>
     );
 
   }
 
-  const addPostControlAttributes = {
-    style: styles.addPostControl
-  };
+  async function renderAddPostControl() {
 
-  const addIconAttributes = {
-    name: 'add',
-    size: 20,
-    color: colors.white,
-  };
+    const isGuest = await checkIsUserGuestToCommunity(community?.members, community?.createdBy);
+
+    if (isGuest === true) {
+      return false;
+    }
+
+    const addPostControlAttributes = {
+      style: styles.addPostControl
+    };
+
+    const addIconAttributes = {
+      name: 'add',
+      size: 20,
+      color: colors.white,
+    };
+
+    return (
+      <TouchableOpacity {...addPostControlAttributes}>
+        <Icon {...addIconAttributes} />
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <View style={styles.communityHeaderMain}>
       {renderLeftSection()}
-      <TouchableOpacity {...addPostControlAttributes}>
-        <Icon {...addIconAttributes} />
-      </TouchableOpacity>
+      {renderAddPostControl()}
     </View>
   );
 

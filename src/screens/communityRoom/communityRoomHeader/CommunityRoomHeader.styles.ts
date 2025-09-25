@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: fontFamilies.robotoBold,
     letterSpacing: 0.3,
-    color: colors.white
+    color: colors.white,
   },
   communityProfileImage: {
     borderRadius: '100%'

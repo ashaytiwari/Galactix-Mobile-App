@@ -24,7 +24,6 @@ export interface IHomeCommunitiesChatListStateModel {
 }
 
 export interface ICommunityRoomHeaderProps {
-  communityName: string,
-  communityProfile: string,
+  community: ICommunityModel,
   onBack: () => void
 }

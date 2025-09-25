@@ -15,7 +15,6 @@ import { ImageFile } from "@interfaces/uiInterfaces/generic";
 import screenNames from "@constants/screenNames";
 import coinsRateList from "@constants/coinsRateList";
 
-import BackgroundWallpaperWrapper from "@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper";
 import AppButton from "@components/appButton/AppButton";
 import FormInputTextControl from "@components/formControls/FormInputTextControl";
 import AppImagePicker from "@components/appImagePicker/AppImagePicker";
@@ -228,12 +227,10 @@ function CommunityEditor() {
   }
 
   return (
-    <BackgroundWallpaperWrapper>
-      <View style={styles.communityEditorMain}>
-        {renderHeader()}
-        {renderFormContent()}
-      </View>
-    </BackgroundWallpaperWrapper>
+    <View style={styles.communityEditorMain}>
+      {renderHeader()}
+      {renderFormContent()}
+    </View>
   );
 
 };

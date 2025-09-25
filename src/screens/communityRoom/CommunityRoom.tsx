@@ -158,8 +158,7 @@ function CommunityRoom() {
   }
 
   const communityRoomHeaderAttributes = {
-    communityName: community?.communityName,
-    communityProfile: community?.profileImage?.url || '',
+    community,
     onBack() {
       navigation.goBack();
     }
