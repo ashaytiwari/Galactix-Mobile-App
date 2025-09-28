@@ -96,22 +96,22 @@ class CommunitiesServices {
     }
   }
 
-  // getCommunityMembers = (communityId: string) => async (dispatch: any) => {
-  //   try {
+  getCommunityMembers = (communityId: string) => async (dispatch: any) => {
+    try {
 
-  //     const response = await axiosClient.get(`api/getCommunityMembers?communityId=${communityId}`);
-  //     const responseData = response?.data;
+      const response = await axiosClient.get(`getCommunityMembers?communityId=${communityId}`);
+      const responseData = response?.data;
 
-  //     if (responseData?.statusCode !== 200) {
-  //       throw responseData;
-  //     }
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
 
-  //     return response;
+      return response;
 
-  //   } catch (error) {
-  //     handleRESTServerInteractionError(dispatch, error, true);
-  //   }
-  // };
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error, true);
+    }
+  };
 
   // getCommunityJoiningRequests = (communityId: string) => async (dispatch: any) => {
   //   try {

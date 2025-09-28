@@ -30,7 +30,7 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
       return;
     }
 
-    navigation.navigate(screenNames.COMMUNITY_DETAILS);
+    navigation.navigate(screenNames.COMMUNITY_DETAILS, { community });
   }
 
   function renderCommunityProfileImage() {

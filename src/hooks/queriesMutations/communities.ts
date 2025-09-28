@@ -88,17 +88,17 @@ export function useUpdateCommunityDetails() {
 
 }
 
-// export function useGetCommunityMembers(communityId: string) {
+export function useGetCommunityMembers(communityId: string) {
 
-//   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-//   return useQuery({
-//     queryKey: [queryKeys.communityMembers, communityId],
-//     queryFn: () => dispatch(communityServices.getCommunityMembers(communityId)),
-//     enabled: communityId ? true : false
-//   });
+  return useQuery({
+    queryKey: [queryKeys.communityMembers, communityId],
+    queryFn: () => dispatch(communityServices.getCommunityMembers(communityId)),
+    enabled: communityId ? true : false
+  });
 
-// }
+}
 
 // export function useGetCommunityJoiningRequests(communityId: string) {
 

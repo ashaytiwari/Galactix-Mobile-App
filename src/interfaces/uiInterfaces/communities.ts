@@ -1,4 +1,4 @@
-import { ICommunityModel } from "@interfaces/models/communities";
+import { ICommunityModel, IMemberDetailModel } from "@interfaces/models/communities";
 
 export interface IExploreCommunitiesStateModel {
   communities: Array<ICommunityModel>,
@@ -26,4 +26,9 @@ export interface IHomeCommunitiesChatListStateModel {
 export interface ICommunityRoomHeaderProps {
   community: ICommunityModel,
   onBack: () => void
+}
+
+export interface ICommunityMemberTileProps {
+  member: IMemberDetailModel,
+  isAdmin: boolean,
 }
