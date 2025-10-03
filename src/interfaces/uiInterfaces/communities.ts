@@ -30,5 +30,5 @@ export interface ICommunityRoomHeaderProps {
 
 export interface ICommunityMemberTileProps {
   member: IMemberDetailModel,
-  isAdmin: boolean,
+  communityCreatedBy?: string,
 }

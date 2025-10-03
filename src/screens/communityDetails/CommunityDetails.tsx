@@ -17,6 +17,8 @@ import { colors } from '@styles/colors';
 
 import CommunityMemberTile from './communityMemberTile/CommunityMemberTile';
 
+import { parseCommunityMembersList } from './utilities';
+
 import styles from './CommunityDetails.styles';
 
 function CommunityDetails() {
@@ -104,11 +106,11 @@ function CommunityDetails() {
     );
   }
 
-  function renderMemberTile(member: IMemberDetailModel, isAdmin: boolean) {
+  function renderMemberTile(member: IMemberDetailModel) {
 
     const communityMemberTileAttributes = {
       member,
-      isAdmin
+      communityCreatedBy: community.createdBy,
     };
 
     return <CommunityMemberTile {...communityMemberTileAttributes} />;
@@ -116,23 +118,17 @@ function CommunityDetails() {
 
   function renderCommunityMembersList() {
 
-    const communityMembers = membersDetails?.members || [];
+    const _membersList = parseCommunityMembersList(membersDetails);
 
     const communityMembersListAttributes = {
-      data: communityMembers,
+      data: _membersList,
       renderItem({ item }: any) {
-        return renderMemberTile(item, false);
+        return renderMemberTile(item);
       },
       keyExtractor: (item: IMemberDetailModel) => item._id,
-      // contentContainerStyle: styles.communitiesListContainer,
     };
 
-    return (
-      <>
-        {renderMemberTile(membersDetails?.admin, true)}
-        <FlatList {...communityMembersListAttributes} />
-      </>
-    );
+    return <FlatList {...communityMembersListAttributes} />;
   }
 
   function renderCommunityMembersSection() {

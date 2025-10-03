@@ -13,26 +13,26 @@ import styles from './CommunityMemberTile.styles';
 
 const CommunityMemberTile: React.FC<ICommunityMemberTileProps> = (props) => {
 
-  const { member, isAdmin } = props;
+  const { member, communityCreatedBy } = props;
 
   const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
 
-  const memberName = `${member.firstName} ${member.lastName}`;
+  const memberName = `${member?.firstName} ${member?.lastName}`;
 
   function renderAdditionalLabel() {
 
-    if (isAdmin === true) {
+    if (member._id === communityCreatedBy) {
 
       let label = 'Admin';
 
-      if (member._id === userAuthDetails._id) {
+      if (member?._id === userAuthDetails._id) {
         label = 'Admin-You';
       }
 
       return <Text style={styles.additionalLabel}>{label}</Text>;
     }
 
-    if (member._id === userAuthDetails._id) {
+    if (member?._id === userAuthDetails._id) {
       return <Text style={styles.additionalLabel}>You</Text>;
     }
 
