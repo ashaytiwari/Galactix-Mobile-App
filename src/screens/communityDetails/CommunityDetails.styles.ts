@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 import { colors } from "@styles/colors";
 import { fontFamilies } from "@styles/fonts";
@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    position: 'relative',
   },
   headerTitle: {
     fontSize: 18,
@@ -63,6 +64,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     fontFamily: fontFamilies.robotoBold
+  },
+  moreActionsPopupBackdrop: {
+    flex: 1,
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height,
+    position: 'absolute',
+    top: 0,
+    zIndex: 9,
+    backgroundColor: colors.homeGradientBlack
+  },
+  moreInfoContent: {
+    backgroundColor: colors.white,
+    position: 'absolute',
+    top: 60,
+    right: 14,
+    width: 150,
+    paddingVertical: 10,
+    borderRadius: 5,
+    elevation: 5,
+    shadowColor: colors.blackGlassy,
+  },
+  actionItem: {
+    padding: 10,
+  },
+  actionItemText: {
+    fontSize: 14,
+    fontFamily: fontFamilies.robotoMedium,
+    opacity: 0.6,
+    paddingHorizontal: 5
   }
 });
 

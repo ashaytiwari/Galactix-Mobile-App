@@ -1,8 +1,9 @@
-import React from 'react';
-import { FlatList, ScrollView, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Pressable, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useMMKVStorage } from 'react-native-mmkv-storage';
 
 import { useGetCommunityMembers } from '@hooks/queriesMutations/communities';
 
@@ -12,6 +13,8 @@ import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/B
 import AppScaledImage from '@components/AppScaledImage';
 import AppAvatar from '@components/appAvatar/AppAvatar';
 import Spinner from '@components/spinner/Spinner';
+
+import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
 import { colors } from '@styles/colors';
 
@@ -27,13 +30,97 @@ function CommunityDetails() {
   const route: any = useRoute();
   const dimensions = useWindowDimensions();
 
+  const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
+
+  const [displayMoreActionsPopup, setDisplayMoreActionsPopup] = useState(false);
+
   const community: ICommunityModel = route.params?.community;
 
   const getCommunityMembersQuery = useGetCommunityMembers(community._id);
   const membersDetails: ICommunityMembersModel = getCommunityMembersQuery.data?.data?.data;
 
+  const moreActions = [
+    {
+      label: 'Edit Details',
+      action: () => {
+      }
+    }
+  ];
+
+  useEffect(() => {
+    // show 'Joining Requests' option only if the community is private and the logged in user is the admin of the community
+    if (community.isPrivate === true && userAuthDetails._id === community.createdBy) {
+      moreActions.push({
+        label: 'Joining Requests',
+        action: () => {
+        }
+      });
+    }
+  }, [community]);
+
   function onBack() {
     navigation.goBack();
+  }
+
+  function renderActionItem(item: any, index: number) {
+
+    const actionItemAttributes = {
+      style: styles.actionItem,
+      onPress: item.action
+    };
+
+    return (
+      <TouchableOpacity key={index} {...actionItemAttributes}>
+        <Text style={styles.actionItemText}>{item.label}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  function renderMoreActionsPopup() {
+
+    if (displayMoreActionsPopup === false) {
+      return;
+    }
+
+    const moreActionsPopupBackdropAttributes = {
+      style: styles.moreActionsPopupBackdrop,
+      onPress() {
+        setDisplayMoreActionsPopup(false);
+      }
+    };
+
+    return (
+      <Pressable {...moreActionsPopupBackdropAttributes}>
+        <View style={styles.moreInfoContent}>
+          {
+            moreActions.map((action, index) => (
+              renderActionItem(action, index)
+            ))
+          }
+        </View>
+      </Pressable>
+    );
+  }
+
+  function renderMoreActionControl() {
+
+    // only show the more action control if the logged in user is the admin of the community
+    if (userAuthDetails._id !== community.createdBy) {
+      return <View />;
+    }
+
+    const moreIconAttributes = {
+      name: 'ellipsis-vertical',
+      size: 22,
+      color: colors.white
+    };
+
+    return (
+      <TouchableOpacity onPress={() => setDisplayMoreActionsPopup(true)}>
+        <Icon {...moreIconAttributes} />
+      </TouchableOpacity>
+    );
+
   }
 
   function renderHeader() {
@@ -44,11 +131,7 @@ function CommunityDetails() {
       color: colors.white
     };
 
-    const moreIconAttributes = {
-      name: 'ellipsis-vertical',
-      size: 22,
-      color: colors.white
-    };
+
 
     return (
       <View style={styles.header}>
@@ -56,9 +139,8 @@ function CommunityDetails() {
           <Icon {...backIconAttributes} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Community Details</Text>
-        <TouchableOpacity>
-          <Icon {...moreIconAttributes} />
-        </TouchableOpacity>
+        {renderMoreActionControl()}
+        {renderMoreActionsPopup()}
       </View>
     );
   }
