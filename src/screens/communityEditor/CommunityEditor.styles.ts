@@ -6,7 +6,8 @@ import { fontFamilies } from "@styles/fonts";
 const styles = StyleSheet.create({
   communityEditorMain: {
     rowGap: 20,
-    flex: 1
+    flex: 1,
+    width: '100%',
   },
   header: {
     paddingHorizontal: 14,
@@ -24,6 +25,8 @@ const styles = StyleSheet.create({
   communityFormWrapper: {
     paddingHorizontal: 14,
     rowGap: 15,
+    width: '100%',
+    flex: 1
   },
   infoLabel: {
     color: colors.primary,

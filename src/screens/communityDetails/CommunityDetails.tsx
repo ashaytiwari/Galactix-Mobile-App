@@ -9,10 +9,12 @@ import { useGetCommunityMembers } from '@hooks/queriesMutations/communities';
 
 import { ICommunityMembersModel, ICommunityModel, IMemberDetailModel } from '@interfaces/models/communities';
 
+import CommunityEditor from '@screens/communityEditor/CommunityEditor';
 import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/BackgroundWallpaperWrapper';
 import AppScaledImage from '@components/AppScaledImage';
 import AppAvatar from '@components/appAvatar/AppAvatar';
 import Spinner from '@components/spinner/Spinner';
+import AppBottomSheet from '@components/appBottomSheet/AppBottomSheet';
 
 import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
@@ -33,6 +35,7 @@ function CommunityDetails() {
   const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
 
   const [displayMoreActionsPopup, setDisplayMoreActionsPopup] = useState(false);
+  const [displayCommunityEditor, setDisplayCommunityEditor] = useState(false);
 
   const community: ICommunityModel = route.params?.community;
 
@@ -43,6 +46,8 @@ function CommunityDetails() {
     {
       label: 'Edit Details',
       action: () => {
+        setDisplayCommunityEditor(true);
+        setDisplayMoreActionsPopup(false);
       }
     }
   ];
@@ -130,8 +135,6 @@ function CommunityDetails() {
       size: 22,
       color: colors.white
     };
-
-
 
     return (
       <View style={styles.header}>
@@ -227,12 +230,37 @@ function CommunityDetails() {
     );
   }
 
+  function renderCommunityEditor() {
+
+    const appBottomSheetAttributes = {
+      open: displayCommunityEditor,
+      onClose() {
+        setDisplayCommunityEditor(false);
+      },
+      containerStyle: styles.communityEditorWrapper
+    };
+
+    const communityEditorAttributes = {
+      communityDetails: community,
+      onEditClose() {
+        setDisplayCommunityEditor(false);
+      }
+    };
+
+    return (
+      <AppBottomSheet {...appBottomSheetAttributes}>
+        <CommunityEditor {...communityEditorAttributes} />
+      </AppBottomSheet>
+    );
+  }
+
   return (
     <BackgroundWallpaperWrapper>
       <View style={styles.communityDetailsMain}>
         {renderHeader()}
         {renderCommunityDetails()}
         {renderCommunityMembersSection()}
+        {renderCommunityEditor()}
       </View>
     </BackgroundWallpaperWrapper>
   );

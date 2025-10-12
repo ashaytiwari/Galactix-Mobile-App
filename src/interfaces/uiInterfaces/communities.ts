@@ -32,3 +32,8 @@ export interface ICommunityMemberTileProps {
   member: IMemberDetailModel,
   communityCreatedBy?: string,
 }
+
+export interface ICommunityEditorProps {
+  communityDetails?: ICommunityModel,
+  onEditClose?: () => void
+}

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Switch, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
@@ -11,7 +11,9 @@ import { useUpdateCommunityDetails } from "@hooks/queriesMutations/communities";
 
 import { balanceConfirmationPopupAction } from "@store/slices/ui/balanceConfirmationPopup";
 
+import { ICommunityEditorProps } from "@interfaces/uiInterfaces/communities";
 import { ImageFile } from "@interfaces/uiInterfaces/generic";
+
 import screenNames from "@constants/screenNames";
 import coinsRateList from "@constants/coinsRateList";
 
@@ -26,7 +28,9 @@ import { setDefaultCommunityFormValues, validateCommunityForm } from "./utilitie
 
 import styles from "./CommunityEditor.styles";
 
-function CommunityEditor() {
+const CommunityEditor: React.FC<ICommunityEditorProps> = (props) => {
+
+  const { communityDetails, onEditClose } = props;
 
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
@@ -46,11 +50,25 @@ function CommunityEditor() {
   const fileUploadMutation = useFileUpload();
   const updateCommunityDetailsMutation = useUpdateCommunityDetails();
 
+  useEffect(() => {
+    syncDataToFormikState();
+  }, [communityDetails]);
+
+  function syncDataToFormikState() {
+
+    if (!communityDetails) {
+      formik.resetForm();
+      setImageFile(null);
+      return;
+    }
+
+    formik.setValues(communityDetails);
+    setImageFile(communityDetails.profileImage);
+  }
+
   async function updateCommunityDetails() {
 
     let name: any = '', uniqueName: any = '';
-
-    console.log(imageFile);
 
     // if image file has the uniqueName key (i.e. image coming from the server, not picked by user)
     // doesn't call the file upload service
@@ -63,9 +81,9 @@ function CommunityEditor() {
       uniqueName = fileResponseData.data.uniqueFileName;
 
     } else if (imageFile) {
-      // const dataCommunityImage = community?.profileImage;
-      // name = dataCommunityImage?.name!;
-      // uniqueName = dataCommunityImage?.uniqueName!;
+      const dataCommunityImage = communityDetails?.profileImage;
+      name = dataCommunityImage?.name!;
+      uniqueName = dataCommunityImage?.uniqueName!;
     } else {
       name = undefined;
       uniqueName = undefined;
@@ -92,6 +110,13 @@ function CommunityEditor() {
   }
 
   async function handleSaveControlClick() {
+
+    // in case of editing community details, don't show the balance confirmation popup
+    if (communityDetails) {
+      updateCommunityDetails();
+      return;
+    }
+
     dispatch(balanceConfirmationPopupAction.updateBalanceConfirmationPopup({
       open: true,
       actionAmount: 20,
@@ -100,7 +125,14 @@ function CommunityEditor() {
   }
 
   function handleBackButton() {
+
+    if (communityDetails && onEditClose) {
+      onEditClose();
+      return;
+    }
+
     navigation.goBack();
+
   }
 
   function renderHeader() {
@@ -116,7 +148,7 @@ function CommunityEditor() {
         <TouchableOpacity onPress={handleBackButton}>
           <Icon {...backIconAttributes} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Add Community</Text>
+        <Text style={styles.headerTitle}>{communityDetails ? 'Edit Community Details' : 'Add Community'}</Text>
       </View>
     );
   }
@@ -148,6 +180,7 @@ function CommunityEditor() {
   function renderAddImageControl() {
 
     const appImagePickerAttributes = {
+      image: imageFile,
       buttonTitle: 'Add Image',
       onImagePicked(_imageFile: ImageFile) {
         setImageFile(_imageFile);
@@ -161,6 +194,15 @@ function CommunityEditor() {
       </View>
     );
 
+  }
+
+  function renderCoinsInstructionsLabel() {
+
+    if (communityDetails) {
+      return;
+    }
+
+    return <Text style={styles.infoLabel}>Heads up! It takes 20 Galactix coins to start your own community.</Text>;
   }
 
   function renderFormContent() {
@@ -213,15 +255,23 @@ function CommunityEditor() {
       }
     };
 
+    const scrollViewAttributes = {
+      keyboardShouldPersistTaps: "handled" as const,
+      showsVerticalScrollIndicator: false,
+      style: { flex: 1 }
+    };
+
     return (
-      <View style={styles.communityFormWrapper}>
-        <Text style={styles.infoLabel}>Heads up! It takes 20 Galactix coins to start your own community.</Text>
-        <FormInputTextControl {...communityNameControlAttributes} />
-        <FormInputTextControl {...communityDescriptionControlAttributes} />
-        {renderCommunityPrivateSwitchControl()}
-        {renderAddImageControl()}
-        <AppButton {...saveControlAttributes} />
-      </View>
+      <ScrollView {...scrollViewAttributes}>
+        <View style={styles.communityFormWrapper}>
+          {renderCoinsInstructionsLabel()}
+          <FormInputTextControl {...communityNameControlAttributes} />
+          <FormInputTextControl {...communityDescriptionControlAttributes} />
+          {renderCommunityPrivateSwitchControl()}
+          {renderAddImageControl()}
+          <AppButton {...saveControlAttributes} />
+        </View>
+      </ScrollView>
     );
 
   }

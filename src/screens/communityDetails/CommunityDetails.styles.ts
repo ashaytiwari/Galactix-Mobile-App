@@ -93,6 +93,11 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilies.robotoMedium,
     opacity: 0.6,
     paddingHorizontal: 5
+  },
+  communityEditorWrapper: {
+    height: Dimensions.get('window').height * 0.8,
+    backgroundColor: colors.primaryBackground,
+    paddingHorizontal: 0
   }
 });
 

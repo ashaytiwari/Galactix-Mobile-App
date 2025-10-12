@@ -83,10 +83,12 @@ export interface IAppDescriptionRendererProps {
 
 export type ImageFile = {
   uri: string,
+  url?: string,
   fileName: string,
   fileType: string
 } | null
 export interface IAppImagePickerProps {
+  image?: ImageFile,
   buttonTitle: string,
   onImagePicked: (imageFile: ImageFile | null) => void
 }

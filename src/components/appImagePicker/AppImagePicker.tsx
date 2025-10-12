@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, Text, TouchableOpacity, View } from 'react-native';
 
 import Icon from "react-native-vector-icons/Ionicons";
@@ -18,11 +18,17 @@ import styles from './AppImagePicker.styles';
 
 const AppImagePicker: React.FC<IAppImagePickerProps> = (props) => {
 
-  const { buttonTitle, onImagePicked } = props;
+  const { buttonTitle, onImagePicked, image } = props;
 
   const dispatch = useAppDispatch();
 
   const [imageFile, setImageFile] = useState<ImageFile>(null);
+
+  useEffect(() => {
+    if (image) {
+      setImageFile(image);
+    }
+  }, [image]);
 
   function handleImagePickerControlAttributes() {
 
@@ -69,7 +75,7 @@ const AppImagePicker: React.FC<IAppImagePickerProps> = (props) => {
   function renderImageViewerContent() {
 
     const appScaledImageAttributes = {
-      url: imageFile?.uri!,
+      url: imageFile?.uri! || imageFile?.url!,
       width: 150,
       height: 150,
     };
