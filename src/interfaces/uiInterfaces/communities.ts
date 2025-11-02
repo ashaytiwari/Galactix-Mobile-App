@@ -37,3 +37,8 @@ export interface ICommunityEditorProps {
   communityDetails?: ICommunityModel,
   onEditClose?: () => void
 }
+
+export interface ICommunityJoiningRequestsProps {
+  communityId: string,
+  onClose: () => void
+}

@@ -20,6 +20,7 @@ import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
 import { colors } from '@styles/colors';
 
+import CommunityJoiningRequests from './communityJoiningRequests/CommunityJoiningRequests';
 import CommunityMemberTile from './communityMemberTile/CommunityMemberTile';
 
 import { parseCommunityMembersList } from './utilities';
@@ -36,13 +37,9 @@ function CommunityDetails() {
 
   const [displayMoreActionsPopup, setDisplayMoreActionsPopup] = useState(false);
   const [displayCommunityEditor, setDisplayCommunityEditor] = useState(false);
+  const [displayJoiningRequests, setDisplayJoiningRequest] = useState(false);
 
-  const community: ICommunityModel = route.params?.community;
-
-  const getCommunityMembersQuery = useGetCommunityMembers(community._id);
-  const membersDetails: ICommunityMembersModel = getCommunityMembersQuery.data?.data?.data;
-
-  const moreActions = [
+  const _moreActions = [
     {
       label: 'Edit Details',
       action: () => {
@@ -52,14 +49,27 @@ function CommunityDetails() {
     }
   ];
 
+  const [moreActions, setMoreActions] = useState(_moreActions);
+
+  const community: ICommunityModel = route.params?.community;
+
+  const getCommunityMembersQuery = useGetCommunityMembers(community._id);
+  const membersDetails: ICommunityMembersModel = getCommunityMembersQuery.data?.data?.data;
+
   useEffect(() => {
     // show 'Joining Requests' option only if the community is private and the logged in user is the admin of the community
     if (community.isPrivate === true && userAuthDetails._id === community.createdBy) {
-      moreActions.push({
+
+      _moreActions.push({
         label: 'Joining Requests',
         action: () => {
+          setDisplayJoiningRequest(true);
+          setDisplayMoreActionsPopup(false);
         }
       });
+
+      setMoreActions(_moreActions);
+
     }
   }, [community]);
 
@@ -254,12 +264,29 @@ function CommunityDetails() {
     );
   }
 
+  function renderBodyContent() {
+
+    if (displayJoiningRequests === true) {
+
+      const communityJoiningRequestsAttributes = {
+        communityId: community._id,
+        onClose() {
+          setDisplayJoiningRequest(false);
+        }
+      };
+
+      return <CommunityJoiningRequests {...communityJoiningRequestsAttributes} />;
+    }
+
+    return renderCommunityMembersSection();
+  }
+
   return (
     <BackgroundWallpaperWrapper>
       <View style={styles.communityDetailsMain}>
         {renderHeader()}
         {renderCommunityDetails()}
-        {renderCommunityMembersSection()}
+        {renderBodyContent()}
         {renderCommunityEditor()}
       </View>
     </BackgroundWallpaperWrapper>

@@ -5,7 +5,7 @@ import { useAppDispatch } from "@hooks/redux";
 import { appPopupAction } from "@store/slices/ui/appPopup";
 
 import queryKeys from "@constants/queryKeys";
-import { ICommunityEditorDataModel } from "@interfaces/models/communities";
+import { ICommunityEditorDataModel, IHandleCommunityJoiningRequestParamsModel } from "@interfaces/models/communities";
 
 import { communityServices } from "@services/communities";
 
@@ -100,38 +100,32 @@ export function useGetCommunityMembers(communityId: string) {
 
 }
 
-// export function useGetCommunityJoiningRequests(communityId: string) {
+export function useGetCommunityJoiningRequests(communityId: string) {
 
-//   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-//   return useQuery({
-//     queryKey: [queryKeys.communityJoiningRequests, communityId],
-//     queryFn: () => dispatch(communityServices.getCommunityJoiningRequests(communityId)),
-//     enabled: communityId ? true : false
-//   });
+  return useQuery({
+    queryKey: [queryKeys.communityJoiningRequests, communityId],
+    queryFn: () => dispatch(communityServices.getCommunityJoiningRequests(communityId)),
+    enabled: communityId ? true : false
+  });
 
-// }
+}
 
-// export function useHandleCommunityJoiningRequests() {
+export function useHandleCommunityJoiningRequests() {
 
-//   const dispatch = useAppDispatch();
-//   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: (params: IHandleCommunityJoiningRequestParamsModel) => dispatch(communityServices.handleCommunityJoiningRequests(params)),
-//     onSuccess: (response: any) => {
+  return useMutation({
+    mutationFn: (params: IHandleCommunityJoiningRequestParamsModel) => dispatch(communityServices.handleCommunityJoiningRequests(params)),
+    onSuccess: (response: any) => {
 
-//       const responseData = response?.data;
+      queryClient.invalidateQueries({ queryKey: [queryKeys.communityJoiningRequests] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.communityMembers] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
 
-//       if (responseData?.statusCode === 200) {
-//         showCustomToast(toastTitles.SUCCESS, responseData.message);
-//       }
+    }
+  });
 
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.communityJoiningRequests] });
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.communityMembers] });
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
-
-//     }
-//   });
-
-// }
+}

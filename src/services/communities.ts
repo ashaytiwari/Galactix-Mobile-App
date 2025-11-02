@@ -1,6 +1,6 @@
 import { axiosClient } from "@axiosClient/index";
 
-import { ICommunityEditorDataModel } from "@interfaces/models/communities";
+import { ICommunityEditorDataModel, IHandleCommunityJoiningRequestParamsModel } from "@interfaces/models/communities";
 
 import { handleRESTServerInteractionError } from "@utilities/serviceHandlers";
 
@@ -113,39 +113,39 @@ class CommunitiesServices {
     }
   };
 
-  // getCommunityJoiningRequests = (communityId: string) => async (dispatch: any) => {
-  //   try {
+  getCommunityJoiningRequests = (communityId: string) => async (dispatch: any) => {
+    try {
 
-  //     const response = await axiosClient.get(`api/getCommunityJoiningRequests?communityId=${communityId}`);
-  //     const responseData = response?.data;
+      const response = await axiosClient.get(`getCommunityJoiningRequests?communityId=${communityId}`);
+      const responseData = response?.data;
 
-  //     if (responseData?.statusCode !== 200) {
-  //       throw responseData;
-  //     }
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
 
-  //     return response;
+      return response;
 
-  //   } catch (error) {
-  //     handleRESTServerInteractionError(dispatch, error, true);
-  //   }
-  // };
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error, true);
+    }
+  };
 
-  // handleCommunityJoiningRequests = (params: IHandleCommunityJoiningRequestParamsModel) => async (dispatch: any) => {
-  //   try {
-  //     const response = await axiosClient.post('api/handleCommunityJoinRequest', params);
+  handleCommunityJoiningRequests = (params: IHandleCommunityJoiningRequestParamsModel) => async (dispatch: any) => {
+    try {
+      const response = await axiosClient.post('handleCommunityJoinRequest', params);
 
-  //     const responseData = response?.data;
+      const responseData = response?.data;
 
-  //     if (responseData?.statusCode !== 200) {
-  //       throw responseData;
-  //     }
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
 
-  //     return response;
+      return response;
 
-  //   } catch (error) {
-  //     handleRESTServerInteractionError(dispatch, error);
-  //   }
-  // }
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error);
+    }
+  }
 
 }
 
