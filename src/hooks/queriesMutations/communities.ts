@@ -5,7 +5,7 @@ import { useAppDispatch } from "@hooks/redux";
 import { appPopupAction } from "@store/slices/ui/appPopup";
 
 import queryKeys from "@constants/queryKeys";
-import { ICommunityEditorDataModel, IHandleCommunityJoiningRequestParamsModel } from "@interfaces/models/communities";
+import { ICommunityEditorDataModel, IHandleCommunityJoiningRequestParamsModel, IJoinCommunityParamsModel } from "@interfaces/models/communities";
 
 import { communityServices } from "@services/communities";
 
@@ -49,29 +49,23 @@ export function useGetCommunitiesChatList() {
 
 }
 
-// export function useJoinCommunity() {
+export function useJoinCommunity() {
 
-//   const dispatch = useAppDispatch();
-//   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: (params: IJoinCommunityParamsModel) => dispatch(communityServices.joinCommunity(params)),
-//     onSuccess: (response: any) => {
+  return useMutation({
+    mutationFn: (params: IJoinCommunityParamsModel) => dispatch(communityServices.joinCommunity(params)),
+    onSuccess: (response: any) => {
 
-//       const responseData = response?.data;
+      queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.communitiesChatList] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.userProfile] });
 
-//       if (responseData?.statusCode === 200) {
-//         showCustomToast(toastTitles.SUCCESS, responseData.message);
-//       }
+    }
+  });
 
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.communities] });
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.communitiesChatList] });
-//       queryClient.invalidateQueries({ queryKey: [queryKeys.userProfile] });
-
-//     }
-//   });
-
-// }
+}
 
 export function useUpdateCommunityDetails() {
 

@@ -4,6 +4,8 @@ import { Dimensions, Pressable, Text, TouchableOpacity, View } from 'react-nativ
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
+import { useJoinCommunity } from '@hooks/queriesMutations/communities';
+
 import { ICommunityRoomHeaderProps } from '@interfaces/uiInterfaces/communities';
 import screenNames from '@constants/screenNames';
 
@@ -21,6 +23,48 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
   const { community, onBack } = props;
 
   const navigation: any = useNavigation();
+
+  const joinCommunityMutation = useJoinCommunity();
+
+  async function handleCommunityJoin() {
+
+    if (joinCommunityMutation.isPending === true) {
+      return;
+    }
+
+    const params = {
+      communityId: community?._id!
+    };
+
+    const response = await joinCommunityMutation.mutateAsync(params);
+    const responseData = response?.data;
+
+    console.log(response);
+
+    if (responseData?.statusCode !== 200) {
+      return;
+    }
+
+
+    // // updating community-room selected community details at run time
+    // const updatedCommunity = updateSelectedCommunity(selectedCommunity!, applicationStorage._id);
+    // dispatch(commonUIActions.updateSelectedCommunity(updatedCommunity));
+
+    // if (selectedCommunity?.isPrivate === true) {
+
+    //   const event = new CustomEvent(inAppCustomEvents.EXPLORE_COMMUNITIES_LIST_UPDATED, {
+    //     detail: responseData?.data
+    //   });
+    //   window.dispatchEvent(event);
+
+    //   return;
+    // }
+
+    // dispatch(commonUIActions.updateSidebarContentType(sidebarContentType.USER_CHAT_COMMUNITIES));
+
+    // socket.emit(socketEvents.JOIN_COMMUNITY_ROOM, selectedCommunity?._id);
+
+  }
 
   async function navigateToCommunityDetails() {
 
@@ -86,12 +130,35 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
 
   }
 
+  async function renderJoinCommunityControl() {
+
+    const isGuest = await checkIsUserGuestToCommunity(community?.members, community?.createdBy);
+
+    if (isGuest === false) {
+      return;
+    }
+
+    const joinCommunityControlAttributes = {
+      style: styles.joinCommunityControl,
+      onPress: handleCommunityJoin
+    };
+
+    let joinCommunityControlText = joinCommunityMutation.isPending === true ? 'Launching you in...' : 'Launch In';
+
+    return (
+      <TouchableOpacity {...joinCommunityControlAttributes}>
+        <Text style={styles.joinCommunityControlText}>{joinCommunityControlText}</Text>
+      </TouchableOpacity>
+    );
+
+  }
+
   async function renderAddPostControl() {
 
     const isGuest = await checkIsUserGuestToCommunity(community?.members, community?.createdBy);
 
     if (isGuest === true) {
-      return false;
+      return;
     }
 
     const addPostControlAttributes = {
@@ -115,6 +182,7 @@ const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
     <View style={styles.communityHeaderMain}>
       {renderLeftSection()}
       {renderAddPostControl()}
+      {renderJoinCommunityControl()}
     </View>
   );
 

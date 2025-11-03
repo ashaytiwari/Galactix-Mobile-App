@@ -34,6 +34,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: colors.darkTransparentColor,
+  },
+  joinCommunityControl: {
+    backgroundColor: colors.primary,
+    borderRadius: 5,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  joinCommunityControlText: {
+    color: colors.white,
+    fontSize: 14,
+    fontFamily: fontFamilies.robotoMedium,
   }
 });
 

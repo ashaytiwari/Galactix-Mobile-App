@@ -1,6 +1,6 @@
 import { axiosClient } from "@axiosClient/index";
 
-import { ICommunityEditorDataModel, IHandleCommunityJoiningRequestParamsModel } from "@interfaces/models/communities";
+import { ICommunityEditorDataModel, IHandleCommunityJoiningRequestParamsModel, IJoinCommunityParamsModel } from "@interfaces/models/communities";
 
 import { handleRESTServerInteractionError } from "@utilities/serviceHandlers";
 
@@ -62,22 +62,22 @@ class CommunitiesServices {
     }
   };
 
-  // joinCommunity = (params: IJoinCommunityParamsModel) => async (dispatch: any) => {
-  //   try {
-  //     const response = await axiosClient.post('api/joinCommunity', params);
+  joinCommunity = (params: IJoinCommunityParamsModel) => async (dispatch: any) => {
+    try {
+      const response = await axiosClient.post('joinCommunity', params);
 
-  //     const responseData = response?.data;
+      const responseData = response?.data;
 
-  //     if (responseData?.statusCode !== 200) {
-  //       throw responseData;
-  //     }
+      if (responseData?.statusCode !== 200) {
+        throw responseData;
+      }
 
-  //     return response;
+      return response;
 
-  //   } catch (error) {
-  //     handleRESTServerInteractionError(dispatch, error);
-  //   }
-  // }
+    } catch (error) {
+      handleRESTServerInteractionError(dispatch, error);
+    }
+  }
 
   updateCommunityDetails = (params: ICommunityEditorDataModel) => async (dispatch: any) => {
     try {
