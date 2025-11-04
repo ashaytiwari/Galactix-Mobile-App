@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Modal, Text, TouchableOpacity, View } from 'react-native';
 
 import { useMMKVStorage } from 'react-native-mmkv-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -18,6 +18,7 @@ import BackgroundWallpaperWrapper from '@components/backgroundWallpaperWrapper/B
 import AppHeader from '@components/appHeader/AppHeader';
 import AppSearchBar from '@components/appSearchBar/AppSearchBar';
 import Spinner from '@components/spinner/Spinner';
+import AppPopup from '@components/appPopup/AppPopup';
 
 import { MMKV, STORAGE_KEYS } from '@utilities/mmkvStorage';
 
@@ -36,6 +37,8 @@ function Communities() {
   const navigation: any = useNavigation();
 
   const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
+
+  const [displayPrivateCommunityDialog, setDisplayPrivateCommunityDialog] = useState(false);
 
   const [rootState, setRootState] = useState<IExploreCommunitiesStateModel>({
     communities: [],
@@ -116,14 +119,22 @@ function Communities() {
     fetchCommunities(rootState.page + 1, rootState.textSearch, rootState.tab);
   }
 
+  function handleCommunityPress(community: ICommunityModel) {
+
+    if (community.isPrivate === true) {
+      return setDisplayPrivateCommunityDialog(true);
+    }
+
+    navigation.navigate(screenNames.COMMUNITY_ROOM, { community });
+
+  }
+
   function renderCommunityItem(community: ICommunityModel, index: number) {
 
     const communityTileAttributes = {
       community,
       callingFrom: rootState.tab,
-      onPress(community: ICommunityModel) {
-        navigation.navigate(screenNames.COMMUNITY_ROOM, { community });
-      }
+      onPress: handleCommunityPress
     };
 
     return <CommunityTile {...communityTileAttributes} />;
@@ -232,6 +243,29 @@ function Communities() {
 
   }
 
+  const appPopupAttributes = {
+    open: displayPrivateCommunityDialog,
+    title: 'Private Community',
+    message: 'This community is private. Join now to unlock and engage with its content!',
+    footerControls: [
+      {
+        text: 'Proceed',
+        onPress() {
+          setDisplayPrivateCommunityDialog(false);
+        },
+      },
+      {
+        text: 'Cancel',
+        onPress() {
+          setDisplayPrivateCommunityDialog(false);
+        },
+      }
+    ],
+    onClose() {
+      setDisplayPrivateCommunityDialog(false);
+    }
+  };
+
   return (
     <BackgroundWallpaperWrapper>
 
@@ -241,6 +275,8 @@ function Communities() {
         {renderFilters()}
         {renderCommunitiesList()}
       </View>
+
+      <AppPopup {...appPopupAttributes} />
 
     </BackgroundWallpaperWrapper>
   );
