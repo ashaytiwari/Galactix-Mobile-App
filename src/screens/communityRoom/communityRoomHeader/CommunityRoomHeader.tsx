@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
 import { useJoinCommunity } from '@hooks/queriesMutations/communities';
+import { useAppDispatch } from '@hooks/redux';
 
 import { ICommunityRoomHeaderProps } from '@interfaces/uiInterfaces/communities';
 import screenNames from '@constants/screenNames';
@@ -17,16 +18,26 @@ import { checkIsUserGuestToCommunity } from '@utilities/controlVisibility';
 import { colors } from '@styles/colors';
 
 import styles from './CommunityRoomHeader.styles';
+import { balanceConfirmationPopupAction } from '@store/slices/ui/balanceConfirmationPopup';
 
 const CommunityRoomHeader: React.FC<ICommunityRoomHeaderProps> = (props) => {
 
   const { community, onBack } = props;
 
   const navigation: any = useNavigation();
+  const dispatch = useAppDispatch();
 
   const joinCommunityMutation = useJoinCommunity();
 
-  async function handleCommunityJoin() {
+  function handleCommunityJoin() {
+    dispatch(balanceConfirmationPopupAction.updateBalanceConfirmationPopup({
+      open: true,
+      actionAmount: 5,
+      onConfirmed: joinCommunity
+    }));
+  }
+
+  async function joinCommunity() {
 
     if (joinCommunityMutation.isPending === true) {
       return;

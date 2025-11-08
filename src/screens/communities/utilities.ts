@@ -14,3 +14,8 @@ export function getFilterInformationLabel(tab: string) {
 
   return message;
 }
+
+export function checkUserAlreadyRequestedToJoinCommunity(userId: string, communityPendingMembers: Array<string>) {
+  const isRequested = communityPendingMembers.includes(userId);
+  return isRequested;
+}

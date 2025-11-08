@@ -4,7 +4,8 @@ import { ActivityIndicator, FlatList, Modal, Text, TouchableOpacity, View } from
 import { useMMKVStorage } from 'react-native-mmkv-storage';
 import { useNavigation } from '@react-navigation/native';
 
-import { useGetCommunities } from '@hooks/queriesMutations/communities';
+import { useAppDispatch } from '@hooks/redux';
+import { useGetCommunities, useJoinCommunity } from '@hooks/queriesMutations/communities';
 
 import { IExploreCommunitiesStateModel } from '@interfaces/uiInterfaces/communities';
 import { IPaginationMetadataModel } from '@interfaces/models/common';
@@ -26,19 +27,27 @@ import { colors } from '@styles/colors';
 
 import CommunityTile from './communityTile/CommunityTile';
 
-import { getFilterInformationLabel } from './utilities';
+import { checkUserAlreadyRequestedToJoinCommunity, getFilterInformationLabel } from './utilities';
 
 import styles from './Communities.styles';
+import { balanceConfirmationPopupAction } from '@store/slices/ui/balanceConfirmationPopup';
+import { appPopupAction } from '@store/slices/ui/appPopup';
 
 const PAGINATION_LIMIT = 5;
 
 function Communities() {
 
   const navigation: any = useNavigation();
+  const dispatch = useAppDispatch();
 
   const [userAuthDetails]: any = useMMKVStorage(STORAGE_KEYS.USER_AUTH_DETAILS, MMKV);
 
-  const [displayPrivateCommunityDialog, setDisplayPrivateCommunityDialog] = useState(false);
+  const [selectedCommunity, setSelectedCommunity] = useState<null | ICommunityModel>(null);
+  const [appPopupState, setAppPopupState] = useState<any>({
+    open: false,
+    message: '',
+    footerControls: []
+  });
 
   const [rootState, setRootState] = useState<IExploreCommunitiesStateModel>({
     communities: [],
@@ -50,6 +59,7 @@ function Communities() {
   });
 
   const getCommunities = useGetCommunities();
+  const joinCommunityMutation = useJoinCommunity();
 
   useEffect(() => {
     fetchCommunities(rootState.page, rootState.textSearch, rootState.tab);
@@ -119,13 +129,100 @@ function Communities() {
     fetchCommunities(rootState.page + 1, rootState.textSearch, rootState.tab);
   }
 
+  function closePrivateCommunityPopup() {
+    setAppPopupState((_state: any) => {
+      return {
+        ..._state,
+        open: false
+      };
+    });
+  }
+
   function handleCommunityPress(community: ICommunityModel) {
 
-    if (community.isPrivate === true) {
-      return setDisplayPrivateCommunityDialog(true);
+    if (community.isPrivate === false) {
+      return navigation.navigate(screenNames.COMMUNITY_ROOM, { community });
     }
 
-    navigation.navigate(screenNames.COMMUNITY_ROOM, { community });
+    const isRequested = checkUserAlreadyRequestedToJoinCommunity(userAuthDetails._id, community.pendingMembers);
+    console.log(isRequested, 'isRequested');
+
+    setSelectedCommunity(community);
+
+    if (isRequested === true) {
+      return setAppPopupState({
+        open: true,
+        message: "You've already submitted a request to join this community. Please wait for approval from the community admins.",
+        footerControls: []
+      });
+    }
+
+    return setAppPopupState({
+      open: true,
+      message: "This community is private. Join now to unlock and engage with its content!",
+      footerControls: [
+        {
+          text: 'Proceed',
+          onPress() {
+            closePrivateCommunityPopup();
+            dispatch(balanceConfirmationPopupAction.updateBalanceConfirmationPopup({
+              open: true,
+              actionAmount: 5,
+              onConfirmed: joinCommunity
+            }));
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress() {
+            setSelectedCommunity(null);
+          },
+        }
+      ]
+    });
+
+  }
+
+  async function joinCommunity() {
+
+    if (joinCommunityMutation.isPending === true) {
+      return;
+    }
+
+    const params = {
+      communityId: selectedCommunity?._id!
+    };
+
+    const response = await joinCommunityMutation.mutateAsync(params);
+    const responseData = response?.data;
+
+    console.log(response);
+
+    if (responseData?.statusCode !== 200) {
+      return dispatch(appPopupAction.updateAppPopupState({
+        open: true,
+        title: 'Error',
+        message: responseData?.message
+      }));
+    }
+
+    // // updating community-room selected community details at run time
+    // const updatedCommunity = updateSelectedCommunity(selectedCommunity!, applicationStorage._id);
+    // dispatch(commonUIActions.updateSelectedCommunity(updatedCommunity));
+
+    // if (selectedCommunity?.isPrivate === true) {
+
+    //   const event = new CustomEvent(inAppCustomEvents.EXPLORE_COMMUNITIES_LIST_UPDATED, {
+    //     detail: responseData?.data
+    //   });
+    //   window.dispatchEvent(event);
+
+    //   return;
+    // }
+
+    // dispatch(commonUIActions.updateSidebarContentType(sidebarContentType.USER_CHAT_COMMUNITIES));
+
+    // socket.emit(socketEvents.JOIN_COMMUNITY_ROOM, selectedCommunity?._id);
 
   }
 
@@ -244,26 +341,11 @@ function Communities() {
   }
 
   const appPopupAttributes = {
-    open: displayPrivateCommunityDialog,
+    open: appPopupState.open,
     title: 'Private Community',
-    message: 'This community is private. Join now to unlock and engage with its content!',
-    footerControls: [
-      {
-        text: 'Proceed',
-        onPress() {
-          setDisplayPrivateCommunityDialog(false);
-        },
-      },
-      {
-        text: 'Cancel',
-        onPress() {
-          setDisplayPrivateCommunityDialog(false);
-        },
-      }
-    ],
-    onClose() {
-      setDisplayPrivateCommunityDialog(false);
-    }
+    message: appPopupState.message,
+    footerControls: appPopupState.footerControls,
+    onClose: closePrivateCommunityPopup
   };
 
   return (
